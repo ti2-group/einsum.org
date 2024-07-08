@@ -5,6 +5,7 @@ export function onRequest({ request }) {
    */
 
   const url = new URL(request.url);
+  url.protocol = 'http:';
   url.hostname = 'tenvexity.api.einsum.org';
 
   // Create a new request based on the original one
