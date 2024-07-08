@@ -17,6 +17,10 @@ const nextConfig = withNextra({
       destination: 'http://tenvexity.api.einsum.org/api/',
     },
   ],
+  output: 'export',
+  images: {
+    unoptimized: true,
+  },
 });
 
 export default nextConfig;
