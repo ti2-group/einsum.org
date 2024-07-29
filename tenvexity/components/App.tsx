@@ -11,6 +11,7 @@ export default function App() {
     <StrictMode>
       <MantineProvider
         // theme={theme}
+        forceColorScheme="light"
         cssVariablesResolver={theme => ({
           variables: {},
           light: {
