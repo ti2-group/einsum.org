@@ -11,7 +11,10 @@ const config: DocsThemeConfig = {
   themeSwitch: {
     component: null,
   },
-
+  darkMode: false,
+  nextThemes: {
+    forcedTheme: 'light',
+  },
   // ... other theme options
 };
 export default config;
