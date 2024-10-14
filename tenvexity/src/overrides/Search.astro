@@ -1,0 +1,8 @@
+---
+import type { Props } from '@astrojs/starlight/props';
+import Default from '@astrojs/starlight/components/Search.astro';
+import { Link } from '@nextui-org/react';
+---
+
+<Link href="/language" className="mx-4" color="foreground">Input Language</Link>
+<Default {...Astro.props}><slot /></Default>

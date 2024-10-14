@@ -20,7 +20,8 @@ export default defineConfig({
       },
       customCss: ['./src/styles.css'],
       components: {
-        PageTitle: './src/components/PageTitle.astro',
+        PageTitle: './src/overrides/PageTitle.astro',
+        Search: './src/overrides/Search.astro',
       },
       editLink: {
         baseUrl: 'https://github.com/ti2-group/einsum.org/edit/main/tenvexity/',

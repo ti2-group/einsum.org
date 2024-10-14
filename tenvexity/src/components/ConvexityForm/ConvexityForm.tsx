@@ -317,10 +317,10 @@ export function ConvexityForm() {
           )}
           {errorComponent || (
             <>
-              <div className="flex place-content-center my-3 gap-2">
-                <div className="text-xl font-semibold h-10 place-content-center">Is </div>
+              <div className="flex place-content-center my-3 gap-2 sm:text-xl">
+                <div className="place-content-center sm:text-xl">Is </div>
                 <Chip
-                  className="h-10 place-content-center mx-2 text-xl uppercase"
+                  className="h-10 place-content-center mx-2uppercase sm:text-xl"
                   color={
                     form.values.result in resultToColorMap && !form.values.weak
                       ? resultToColorMap[form.values.result]
@@ -338,7 +338,7 @@ export function ConvexityForm() {
                   selectedKeys={form.values.wrt}
                   className="max-w-xs text-nowrap "
                   classNames={{
-                    label: 'text-xl w-55 h-10 place-content-center pr-4',
+                    label: 'sm:text-xl w-55 h-10 place-content-center pr-4',
                     popoverContent: 'light:bg-white',
                     trigger: 'variable-select-trigger',
                   }}

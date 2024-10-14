@@ -31,9 +31,9 @@ ul[data-slot='listbox'] {
     gap: 5px;
   }
 
-  .header .sl-flex {
+  /* .header .sl-flex {
     justify-content: center;
-  }
+  } */
 }
 
 :root[data-theme='light'],
