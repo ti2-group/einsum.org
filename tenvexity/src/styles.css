@@ -7,7 +7,7 @@ Add additional Tailwind styles to this file, for example with @layer:
 https://tailwindcss.com/docs/adding-custom-styles#using-css-and-layer
 */
 
-ul[data-slot="listbox"] {
+ul[data-slot='listbox'] {
   padding-inline-start: 0;
 }
 
@@ -21,15 +21,24 @@ ul[data-slot="listbox"] {
 }
 :root,
 ::backdrop {
+  --sl-color-text-accent: #12b886;
   --sl-color-bg: #000;
   --sl-color-bg-nav: var(--sl-color-bg);
   header {
     border-bottom-width: 0px;
   }
+  .site-title.sl-flex {
+    gap: 5px;
+  }
 }
 
-:root[data-theme="light"],
-[data-theme="light"] ::backdrop {
+:root[data-theme='light'],
+[data-theme='light'] ::backdrop {
+  --sl-color-text-accent: #12b886;
   --sl-color-bg: hsl(0, 0%, 100%);
   --sl-color-bg-nav: var(--sl-color-bg);
+}
+
+.MathJax svg {
+  display: inline !important;
 }

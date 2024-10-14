@@ -1,5 +1,7 @@
-# The input language
-
+---
+title: 'Input Language'
+template: 'splash'
+---
 ## Variables
 Variable names are alphanumeric symbols that begin with a letter.
 If the symbol does not correspond to any known keyword (such as a function name), it is automatically assumed to be a variable.

@@ -1,12 +1,11 @@
-import { useForm } from "@mantine/form";
-import { Fragment, useState } from "react";
-import { z } from "zod";
+import { useForm } from '@mantine/form';
+import { Fragment, useState } from 'react';
+import { z } from 'zod';
 
-import isDeepEqual from "fast-deep-equal/react";
-import { Example } from "./Example";
-import "./NumberInput.css";
-import { examples } from "./examples";
-import { HighlightedCode } from "./HighlightedCode";
+import isDeepEqual from 'fast-deep-equal/react';
+import { Example } from './Example';
+import { examples } from './examples';
+import { HighlightedCode } from './HighlightedCode';
 import {
   Chip,
   CircularProgress,
@@ -22,8 +21,8 @@ import {
   Button,
   Input,
   Card,
-} from "@nextui-org/react";
-import VarConfTags from "./VarConfTags";
+} from '@nextui-org/react';
+import VarConfTags from './VarConfTags';
 
 let controller: AbortController;
 let signal: AbortSignal;
@@ -43,25 +42,19 @@ export type VarConf = {
 };
 
 type Solution = {
-  result: "AFFINE" | "CONVEX" | "CONCAVE" | "UKNOWN";
+  result: 'AFFINE' | 'CONVEX' | 'CONCAVE' | 'UKNOWN';
   weak: boolean;
   strict: boolean;
   weakConditions: string[];
 };
 
-type Colors =
-  | "default"
-  | "primary"
-  | "secondary"
-  | "success"
-  | "warning"
-  | "danger";
+type Colors = 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
 
-const resultToColorMap: { [key in Solution["result"]]: Colors } = {
-  AFFINE: "primary",
-  UKNOWN: "default",
-  CONVEX: "success",
-  CONCAVE: "warning",
+const resultToColorMap: { [key in Solution['result']]: Colors } = {
+  AFFINE: 'primary',
+  UKNOWN: 'default',
+  CONVEX: 'success',
+  CONCAVE: 'warning',
 };
 
 export type FormState = {
@@ -76,7 +69,7 @@ export type FormState = {
 - Show strict or not
 */
 
-export type LoadingState = null | "all" | "solution" | "error" | string[];
+export type LoadingState = null | 'all' | 'solution' | 'error' | string[];
 
 function FormError({ message }: { message: string }) {
   return (
@@ -93,26 +86,18 @@ const formValuesSchema = z.object({
     z.object({
       interval: z.object({
         lower: z
-          .union([z.coerce.number(), z.literal("inf"), z.literal("-inf")], {
+          .union([z.coerce.number(), z.literal('inf'), z.literal('-inf')], {
             errorMap: () => ({
-              message: "The lower bound must be a number or empty (-Inf)",
+              message: 'The lower bound must be a number or empty (-Inf)',
             }),
           })
           .optional(),
         upper: z
-          .union(
-            [
-              z.coerce.number(),
-              z.literal("inf"),
-              z.literal("-inf"),
-              z.literal("Inf"),
-            ],
-            {
-              errorMap: () => ({
-                message: "The upper bound must be a number or empty (Inf)",
-              }),
-            },
-          )
+          .union([z.coerce.number(), z.literal('inf'), z.literal('-inf'), z.literal('Inf')], {
+            errorMap: () => ({
+              message: 'The upper bound must be a number or empty (Inf)',
+            }),
+          })
           .optional(),
       }),
     }),
@@ -129,19 +114,17 @@ export function ConvexityForm() {
     const currentValue = form.values;
     if (!isDeepEqual(currentValue, newValue)) {
       if (controller) {
-        controller.abort("");
+        controller.abort('');
       }
       const parsingResult = formValuesSchema.safeParse(newValue);
       form.setValues(newValue);
       if (parsingResult.success) {
         if (currentValue.expression !== newValue.expression) {
-          setLoadingState("all");
+          setLoadingState('all');
         } else {
           const changedVars: string[] = [];
-          currentValue.variables.forEach((variable) => {
-            const newVarConf = newValue.variables.find(
-              (newVar) => newVar.name === variable.name,
-            );
+          currentValue.variables.forEach(variable => {
+            const newVarConf = newValue.variables.find(newVar => newVar.name === variable.name);
             if (!isDeepEqual(variable, newVarConf)) {
               changedVars.push(variable.name);
             }
@@ -150,64 +133,54 @@ export function ConvexityForm() {
             if (Array.isArray(loadingState)) {
               changedVars.concat(loadingState);
             }
-            setLoadingState((currentLoadingState) => {
+            setLoadingState(currentLoadingState => {
               if (Array.isArray(currentLoadingState)) {
                 return changedVars.concat(currentLoadingState);
               }
               return changedVars;
             });
           } else {
-            setLoadingState("solution");
+            setLoadingState('solution');
           }
         }
         controller = new AbortController();
         signal = controller.signal;
-        fetch("/api/", {
-          method: "POST",
+        fetch('/api/', {
+          method: 'POST',
           body: JSON.stringify(newValue),
           signal,
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
         })
-          .then((res) => res.json())
-          .then((result) => {
+          .then(res => res.json())
+          .then(result => {
             if (result.success) {
-              form.setValues((val) => {
-                const newVariables = result.variables.map(
-                  (variable: VarConf) => {
-                    const oldVar = val?.variables?.find(
-                      (ovar) => ovar.name === variable.name,
-                    );
-                    if (oldVar) {
-                      return { ...variable, interval: oldVar.interval };
-                    }
-                    return variable;
-                  },
-                );
+              form.setValues(val => {
+                const newVariables = result.variables.map((variable: VarConf) => {
+                  const oldVar = val?.variables?.find(ovar => ovar.name === variable.name);
+                  if (oldVar) {
+                    return { ...variable, interval: oldVar.interval };
+                  }
+                  return variable;
+                });
                 return { ...result, variables: newVariables };
               });
             } else {
-              form.setFieldError(
-                "expression",
-                <FormError message={result.errorMessage} />,
-              );
+              form.setFieldError('expression', <FormError message={result.errorMessage} />);
             }
             setLoadingState(null);
           })
-          .catch((err) => {
+          .catch(err => {
             if (!(err instanceof DOMException) && err.message !== undefined) {
-              form.setFieldError(
-                "expression",
-                <FormError message="Server Error" />,
-              );
+              form.setFieldError('expression', <FormError message="Server Error" />);
               setLoadingState(null);
             }
           });
       } else {
         const errors: Record<string, string> = {};
-        parsingResult.error.errors.forEach((error) => {
-          errors[error.path.join(".")] = error.message;
+        parsingResult.error.errors.forEach(error => {
+          errors[error.path.join('.')] = error.message;
         });
 
         form.setErrors(errors);
@@ -222,7 +195,7 @@ export function ConvexityForm() {
     updateForm(newValues);
   };
 
-  const variables = form.values.variables.map((variable) => variable.name);
+  const variables = form.values.variables.map(variable => variable.name);
 
   const hasError = Object.keys(form.errors).length > 0;
   let errorComponent: null | JSX.Element = null;
@@ -240,22 +213,22 @@ export function ConvexityForm() {
     <div className="not-content">
       <div
         style={{
-          position: "relative",
-          textAlign: "left",
-          boxSizing: "border-box",
-          overflow: "hidden",
-          fontSize: "18px",
-          fontVariantLigatures: "common-ligatures",
-          backgroundColor: "var(--mantine-color-body)",
-          border: `3px solid ${form.errors.expression ? "red" : "#868e96"}`,
-          borderRadius: "5px",
-          fontFamily: "Fira code,Fira Mono,Consolas,Menlo,Courier,monospace",
+          position: 'relative',
+          textAlign: 'left',
+          boxSizing: 'border-box',
+          overflow: 'hidden',
+          fontSize: '18px',
+          fontVariantLigatures: 'common-ligatures',
+          backgroundColor: 'var(--mantine-color-body)',
+          border: `3px solid ${form.errors.expression ? 'red' : '#868e96'}`,
+          borderRadius: '5px',
+          fontFamily: 'Fira code,Fira Mono,Consolas,Menlo,Courier,monospace',
         }}
       >
         <textarea
           // size="lg"
           value={form.values.expression}
-          onChange={(event) => {
+          onChange={event => {
             updateForm({
               ...form.values,
               expression: event.currentTarget.value,
@@ -263,78 +236,78 @@ export function ConvexityForm() {
             // setLoadingState('all');
             // form.setFieldValue('expression');
           }}
-          onSelect={(event) => {
+          onSelect={event => {
             console.log(event.currentTarget.selectionStart);
           }}
           spellCheck={false}
           style={{
-            margin: "0px",
-            border: "0px",
-            background: "none",
-            boxSizing: "inherit",
-            display: "inherit",
-            fontFamily: "inherit",
-            fontSize: "inherit",
-            fontStyle: "inherit",
-            fontVariantLigatures: "inherit",
-            fontWeight: "inherit",
-            letterSpacing: "inherit",
-            lineHeight: "inherit",
-            tabSize: "inherit",
-            textIndent: "inherit",
-            textRendering: "inherit",
-            textTransform: "inherit",
-            whiteSpace: "pre-wrap",
-            wordBreak: "keep-all",
-            overflowWrap: "break-word",
-            position: "absolute",
-            top: "0px",
-            left: "0px",
-            height: "100%",
-            width: "100%",
-            resize: "none",
-            color: "inherit",
-            overflow: "hidden",
-            WebkitFontSmoothing: "antialiased",
-            WebkitTextFillColor: "transparent",
-            padding: "10px",
+            margin: '0px',
+            border: '0px',
+            background: 'none',
+            boxSizing: 'inherit',
+            display: 'inherit',
+            fontFamily: 'inherit',
+            fontSize: 'inherit',
+            fontStyle: 'inherit',
+            fontVariantLigatures: 'inherit',
+            fontWeight: 'inherit',
+            letterSpacing: 'inherit',
+            lineHeight: 'inherit',
+            tabSize: 'inherit',
+            textIndent: 'inherit',
+            textRendering: 'inherit',
+            textTransform: 'inherit',
+            whiteSpace: 'pre-wrap',
+            wordBreak: 'keep-all',
+            overflowWrap: 'break-word',
+            position: 'absolute',
+            top: '0px',
+            left: '0px',
+            height: '100%',
+            width: '100%',
+            resize: 'none',
+            color: 'inherit',
+            overflow: 'hidden',
+            WebkitFontSmoothing: 'antialiased',
+            WebkitTextFillColor: 'transparent',
+            padding: '10px',
             outline: 0,
           }}
         />
         <HighlightedCode
           style={{
-            margin: "0px",
-            border: "0px",
-            background: "none",
-            boxSizing: "inherit",
-            display: "inherit",
-            fontFamily: "inherit",
-            fontSize: "inherit",
-            fontStyle: "inherit",
-            fontVariantLigatures: "inherit",
-            fontWeight: "inherit",
-            letterSpacing: "inherit",
-            lineHeight: "inherit",
-            tabSize: "inherit",
-            textIndent: "inherit",
-            textRendering: "inherit",
-            textTransform: "inherit",
-            whiteSpace: "pre-wrap",
-            wordBreak: "keep-all",
-            overflowWrap: "break-word",
-            position: "relative",
-            pointerEvents: "none",
-            padding: "10px",
-            height: "100%",
-            width: "100%",
+            margin: '0px',
+            border: '0px',
+            background: 'none',
+            boxSizing: 'inherit',
+            display: 'inherit',
+            fontFamily: 'inherit',
+            fontSize: 'inherit',
+            fontStyle: 'inherit',
+            fontVariantLigatures: 'inherit',
+            fontWeight: 'inherit',
+            letterSpacing: 'inherit',
+            lineHeight: 'inherit',
+            tabSize: 'inherit',
+            textIndent: 'inherit',
+            textRendering: 'inherit',
+            textTransform: 'inherit',
+            whiteSpace: 'pre-wrap',
+            wordBreak: 'keep-all',
+            overflowWrap: 'break-word',
+            position: 'relative',
+            pointerEvents: 'none',
+            padding: '10px',
+            height: '100%',
+            width: '100%',
           }}
           expression={form.values.expression}
         />
       </div>
 
-      <Skeleton isLoaded={loadingState !== "all"} className="my-8">
+      <Skeleton isLoaded={loadingState !== 'all'} className="my-8">
         <div className="relative">
-          {loadingState !== null && loadingState !== "error" && (
+          {loadingState !== null && loadingState !== 'error' && (
             <div className="absolute bg-white bg-opacity-80 z-50 h-full w-full flex items-center justify-center">
               <CircularProgress aria-label="loading" className="" size="md" />
             </div>
@@ -342,21 +315,17 @@ export function ConvexityForm() {
           {errorComponent || (
             <>
               <div className="flex place-content-center my-3 gap-2">
-                <div className="text-xl font-semibold h-10 place-content-center">
-                  Is{" "}
-                </div>
+                <div className="text-xl font-semibold h-10 place-content-center">Is </div>
                 <Chip
                   className="h-10 place-content-center mx-2 text-xl"
                   color={
                     form.values.result in resultToColorMap && !form.values.weak
                       ? resultToColorMap[form.values.result]
-                      : "default"
+                      : 'default'
                   }
                 >
-                  {form.values.strict ? "strictly " : ""}
-                  {form.values.weak
-                    ? "UNKNOWN"
-                    : form.values.result.toLowerCase()}
+                  {form.values.strict ? 'strictly ' : ''}
+                  {form.values.weak ? 'UNKNOWN' : form.values.result.toLowerCase()}
                 </Chip>
                 <Select
                   label="with regard to"
@@ -366,10 +335,10 @@ export function ConvexityForm() {
                   selectedKeys={form.values.wrt}
                   className="max-w-xs text-nowrap"
                   classNames={{
-                    label: "text-xl w-55 h-10 place-content-center pr-4",
+                    label: 'text-xl w-55 h-10 place-content-center pr-4',
                   }}
                   disabledKeys={[form.values.wrt]}
-                  onChange={(e) => {
+                  onChange={e => {
                     const val = e.target.value;
                     if (loadingState === null && val !== null) {
                       // setLoadingState('solution');
@@ -381,7 +350,7 @@ export function ConvexityForm() {
                   // allowDeselect={false}
                   //   disabled={loadingState !== null}
                 >
-                  {variables.map((variable) => (
+                  {variables.map(variable => (
                     <SelectItem key={variable}>{variable}</SelectItem>
                   ))}
                 </Select>
@@ -393,7 +362,7 @@ export function ConvexityForm() {
                     color={
                       form.values.result in resultToColorMap
                         ? resultToColorMap[form.values.result]
-                        : "default"
+                        : 'default'
                     }
                     size="md"
                   >
@@ -403,22 +372,16 @@ export function ConvexityForm() {
                     &nbsp;if <strong>{form.values.wrt}</strong> were&nbsp;
                   </span>
                   <div className="flex">
-                    {form.values?.weakConditions
-                      ?.slice(0, -1)
-                      .map((condition, index) => (
-                        <Fragment key={condition}>
-                          <Chip size="md" color="primary">
-                            {condition}
-                          </Chip>
-                          {index < form.values.weakConditions.length - 2 && (
-                            <span>,&nbsp;</span>
-                          )}
-                        </Fragment>
-                      ))}
-                    {form.values.weakConditions?.length > 1 && (
-                      <span>&nbsp;and&nbsp;</span>
-                    )}
-                    {form.values?.weakConditions?.slice(-1).map((condition) => (
+                    {form.values?.weakConditions?.slice(0, -1).map((condition, index) => (
+                      <Fragment key={condition}>
+                        <Chip size="md" color="primary">
+                          {condition}
+                        </Chip>
+                        {index < form.values.weakConditions.length - 2 && <span>,&nbsp;</span>}
+                      </Fragment>
+                    ))}
+                    {form.values.weakConditions?.length > 1 && <span>&nbsp;and&nbsp;</span>}
+                    {form.values?.weakConditions?.slice(-1).map(condition => (
                       <>
                         <Chip key={condition} size="md" color="primary">
                           {condition}
@@ -435,21 +398,16 @@ export function ConvexityForm() {
 
         <Card shadow="sm" className="mt-8" radius="sm">
           {/* <Table.ScrollContainer minWidth={850}> */}
-          <Table
-            disabledKeys={Array.isArray(loadingState) ? loadingState : []}
-            radius="sm"
-          >
-            <TableHeader style={{ textAlign: "center" }}>
+          <Table disabledKeys={Array.isArray(loadingState) ? loadingState : []} radius="sm">
+            <TableHeader style={{ textAlign: 'center' }}>
               <TableColumn className="w-1">Variable</TableColumn>
-              <TableColumn style={{ width: "90px" }}>Order</TableColumn>
-              <TableColumn style={{ minWidth: "250px" }} className="w-80">
+              <TableColumn style={{ width: '90px' }}>Order</TableColumn>
+              <TableColumn style={{ minWidth: '250px' }} className="w-80">
                 Interval
               </TableColumn>
-              <TableColumn style={{ minWidth: "220px" }}>
-                Properties
-              </TableColumn>
+              <TableColumn style={{ minWidth: '220px' }}>Properties</TableColumn>
             </TableHeader>
-            <TableBody style={{ textAlign: "center" }}>
+            <TableBody style={{ textAlign: 'center' }}>
               {form.values.variables.map((varConf, variable) => (
                 <TableRow key={varConf.name}>
                   <TableCell className="text-center">
@@ -463,23 +421,18 @@ export function ConvexityForm() {
                       value={varConf.order.toString()}
                       required={true}
                       isDisabled={loadingState?.includes(varConf.name)}
-                      onChange={(event) => {
+                      onChange={event => {
                         let intValue = parseInt(event.target.value);
                         if (intValue < 0) {
                           intValue = 0;
                         }
-                        form.setFieldValue(
-                          `variables.${variable}.order`,
-                          intValue,
-                        );
+                        form.setFieldValue(`variables.${variable}.order`, intValue);
                         updateVariable(variable, {
                           ...varConf,
                           order: intValue,
                         });
                       }}
-                      errorMessage={
-                        !!form.errors[`variables.${variable}.interval.upper`]
-                      }
+                      errorMessage={!!form.errors[`variables.${variable}.interval.upper`]}
                     />
                   </TableCell>
                   <TableCell>
@@ -499,9 +452,9 @@ export function ConvexityForm() {
                             },
                           });
                         }}
-                        disabled={loadingState === "all"}
+                        disabled={loadingState === 'all'}
                       >
-                        {varConf.interval.lowerIncluded ? "[" : "("}
+                        {varConf.interval.lowerIncluded ? '[' : '('}
                       </Button>
                       <Input
                         aria-label="Lower bound"
@@ -510,9 +463,9 @@ export function ConvexityForm() {
                         isDisabled={loadingState?.includes(varConf.name)}
                         placeholder="-Inf"
                         classNames={{
-                          inputWrapper: "rounded-none",
+                          inputWrapper: 'rounded-none',
                         }}
-                        onChange={(event) => {
+                        onChange={event => {
                           updateVariable(variable, {
                             ...varConf,
                             interval: {
@@ -521,10 +474,8 @@ export function ConvexityForm() {
                             },
                           });
                         }}
-                        errorMessage={
-                          !!form.errors[`variables.${variable}.interval.lower`]
-                        }
-                        disabled={loadingState === "all"}
+                        errorMessage={!!form.errors[`variables.${variable}.interval.lower`]}
+                        disabled={loadingState === 'all'}
                       />
                       <Input
                         aria-label="Upper bound"
@@ -533,9 +484,9 @@ export function ConvexityForm() {
                         value={varConf.interval.upper}
                         isDisabled={loadingState?.includes(varConf.name)}
                         classNames={{
-                          inputWrapper: "rounded-none",
+                          inputWrapper: 'rounded-none',
                         }}
-                        onChange={(event) => {
+                        onChange={event => {
                           form.setFieldValue(
                             `variables.${variable}.interval.upper`,
                             event.target.value,
@@ -548,10 +499,8 @@ export function ConvexityForm() {
                             },
                           });
                         }}
-                        errorMessage={
-                          !!form.errors[`variables.${variable}.interval.upper`]
-                        }
-                        disabled={loadingState === "all"}
+                        errorMessage={!!form.errors[`variables.${variable}.interval.upper`]}
+                        disabled={loadingState === 'all'}
                       />
 
                       <Button
@@ -569,9 +518,9 @@ export function ConvexityForm() {
                             },
                           });
                         }}
-                        disabled={loadingState === "all"}
+                        disabled={loadingState === 'all'}
                       >
-                        {varConf.interval.upperIncluded ? "]" : ")"}
+                        {varConf.interval.upperIncluded ? ']' : ')'}
                       </Button>
                     </div>
                     {!!form.errors[`variables.${variable}.interval.lower`] && (
@@ -588,9 +537,7 @@ export function ConvexityForm() {
                   <TableCell>
                     {varConf.order % 2 === 0 && (
                       <VarConfTags
-                        isDisabled={
-                          loadingState?.includes(varConf.name) || false
-                        }
+                        isDisabled={loadingState?.includes(varConf.name) || false}
                         updateVariable={updateVariable}
                         variableKey={variable}
                         varConf={varConf}
@@ -609,7 +556,7 @@ export function ConvexityForm() {
         <h2 className="mt-2 mb-3">Examples</h2>
       </div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {examples.map((example) => (
+        {examples.map(example => (
           <Example
             updateForm={updateForm}
             title={example.title}
