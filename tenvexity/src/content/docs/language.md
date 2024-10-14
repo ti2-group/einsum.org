@@ -14,15 +14,15 @@ $\#('[\text{operand indices}]~\rightarrow~[\text{result indices}]',~[\text{opera
 The table below shows how to convert common operations from linear algebra into *einsum* notation.
 Note, however, that *einsum* allows more than two operands as well as operands with more than two indices.
 
-|           Operation | Linear algebra |                   *Einsum* |
-|---------------------|:--------------:|----------------------------|
-| Elementwise product |     $x\odot y$ |    $\#('i,i~\rightarrow~i', x, y)$ |
-|       Inner product |     $x^\top y$ |     $\#('i, i~\rightarrow~', x, y)$ |
-|       Outer product |      $xy^\top$ |   $\#('i, j~\rightarrow~ij', x, y)$ |
-|    Matrix transpose |       $A^\top$ |        $\#('ij~\rightarrow~ji', A)$ |
-|     Matrix diagonal |      diag$(A)$ |         $\#('ii~\rightarrow~i', A)$ |
-|     Diagonal matrix |      diag$(v)$ |         $\#('i~\rightarrow~ii', v)$ |
-|      Matrix product |    $A \cdot B$ | $\#('ij, jk~\rightarrow~ik', A, B)$ |
+| Operation           | Linear algebra | *Einsum*                            |
+| ------------------- | :------------: | ----------------------------------- |
+| Elementwise product |   $x\odot y$   | $\#('i,i~\rightarrow~i', x, y)$     |
+| Inner product       |   $x^\top y$   | $\#('i, i~\rightarrow~', x, y)$     |
+| Outer product       |   $xy^\top$    | $\#('i, j~\rightarrow~ij', x, y)$   |
+| Matrix transpose    |    $A^\top$    | $\#('ij~\rightarrow~ji', A)$        |
+| Matrix diagonal     |   diag$(A)$    | $\#('ii~\rightarrow~i', A)$         |
+| Diagonal matrix     |   diag$(v)$    | $\#('i~\rightarrow~ii', v)$         |
+| Matrix product      |  $A \cdot B$   | $\#('ij, jk~\rightarrow~ik', A, B)$ |
 
 Apart from the availability of duplicate indices in the result index string, our use of *einsum* is equivalent to that of existing frameworks.
 See [numpy.einsum](https://numpy.org/doc/stable/reference/generated/numpy.einsum.html) for more information.

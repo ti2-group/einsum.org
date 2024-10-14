@@ -1,0 +1,13 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import App from '../components/App';
+---
+
+
+<StarlightPage
+  class:list={['not-content']}
+  frontmatter={{ title: 'Is it convex?', template: 'splash' }}
+  hasSidebar={false}
+>
+  <App client:load />
+</StarlightPage>

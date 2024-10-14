@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+Add additional Tailwind styles to this file, for example with @layer:
+https://tailwindcss.com/docs/adding-custom-styles#using-css-and-layer
+*/
+
+ul[data-slot="listbox"] {
+  padding-inline-start: 0;
+}
+
+.content-panel + .content-panel {
+  border-top: none;
+  padding-top: 0;
+}
+
+.html {
+  background-color: #f1f3f5;
+}
+:root,
+::backdrop {
+  --sl-color-bg: #000;
+  --sl-color-bg-nav: var(--sl-color-bg);
+  header {
+    border-bottom-width: 0px;
+  }
+}
+
+:root[data-theme="light"],
+[data-theme="light"] ::backdrop {
+  --sl-color-bg: hsl(0, 0%, 100%);
+  --sl-color-bg-nav: var(--sl-color-bg);
+}
