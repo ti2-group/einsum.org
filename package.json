@@ -4,8 +4,8 @@
   "version": "0.0.1",
   "scripts": {
     "tenvexity:dev": "astro --root ./tenvexity dev",
-    "tenvexity:build": "astro --root ./tenvexity check && astro --root ./tenvexity build",
-    "tenvexity:preview": "astro -- --root ./tenvexity preview",
+    "tenvexity:build": "astro --root ./tenvexity build",
+    "tenvexity:preview": "astro --root ./tenvexity preview",
     "astro": "astro"
   },
   "dependencies": {

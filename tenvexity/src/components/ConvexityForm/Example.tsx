@@ -1,6 +1,6 @@
-import type { FormState } from "./ConvexityForm";
-import { HighlightedCode } from "./HighlightedCode";
-import { Card, CardBody, CardHeader } from "@nextui-org/react";
+import type { FormState } from './ConvexityForm';
+import { HighlightedCode } from './HighlightedCode';
+import { Card, CardBody } from '@nextui-org/react';
 
 export function Example({
   title,
@@ -20,7 +20,7 @@ export function Example({
       onClick={() => {
         const newValues = {
           ...values,
-          expression: values.expression.replace(/\n/g, ""),
+          expression: values.expression.replace(/\n/g, ''),
         };
         updateForm(newValues);
         window.scrollTo(0, 0);
