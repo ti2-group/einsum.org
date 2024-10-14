@@ -48,3 +48,6 @@ So if you want change e.g. tenvexity locally you need to run  `npm run tenvexity
 ## 👀 Want to learn more?
 
 Check out [Starlight’s docs](https://starlight.astro.build/), read [the Astro documentation](https://docs.astro.build), or jump into the [Astro Discord server](https://astro.build/chat).
+
+
+The page is deployed via Cloudflare Pages
