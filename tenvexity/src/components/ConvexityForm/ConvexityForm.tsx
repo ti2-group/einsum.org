@@ -219,11 +219,11 @@ export function ConvexityForm() {
           overflow: 'hidden',
           fontSize: '18px',
           fontVariantLigatures: 'common-ligatures',
-          backgroundColor: 'var(--mantine-color-body)',
           border: `3px solid ${form.errors.expression ? 'red' : '#868e96'}`,
           borderRadius: '5px',
           fontFamily: 'Fira code,Fira Mono,Consolas,Menlo,Courier,monospace',
         }}
+        className="main-input"
       >
         <textarea
           // size="lg"
@@ -308,7 +308,10 @@ export function ConvexityForm() {
       <Skeleton isLoaded={loadingState !== 'all'} className="my-8">
         <div className="relative">
           {loadingState !== null && loadingState !== 'error' && (
-            <div className="absolute bg-white bg-opacity-80 z-50 h-full w-full flex items-center justify-center">
+            <div
+              className="absolute z-50 h-full w-full flex items-center p-8 justify-center"
+              style={{ backgroundColor: 'var(--sl-color-bg)', opacity: 0.8 }}
+            >
               <CircularProgress aria-label="loading" className="" size="md" />
             </div>
           )}
@@ -317,7 +320,7 @@ export function ConvexityForm() {
               <div className="flex place-content-center my-3 gap-2">
                 <div className="text-xl font-semibold h-10 place-content-center">Is </div>
                 <Chip
-                  className="h-10 place-content-center mx-2 text-xl"
+                  className="h-10 place-content-center mx-2 text-xl uppercase"
                   color={
                     form.values.result in resultToColorMap && !form.values.weak
                       ? resultToColorMap[form.values.result]
@@ -333,9 +336,11 @@ export function ConvexityForm() {
                   aria-label="with regard to"
                   variant="bordered"
                   selectedKeys={form.values.wrt}
-                  className="max-w-xs text-nowrap"
+                  className="max-w-xs text-nowrap "
                   classNames={{
                     label: 'text-xl w-55 h-10 place-content-center pr-4',
+                    popoverContent: 'light:bg-white',
+                    trigger: 'variable-select-trigger',
                   }}
                   disabledKeys={[form.values.wrt]}
                   onChange={e => {
@@ -364,6 +369,7 @@ export function ConvexityForm() {
                         ? resultToColorMap[form.values.result]
                         : 'default'
                     }
+                    className="uppercase"
                     size="md"
                   >
                     {form.values.result}
@@ -374,7 +380,7 @@ export function ConvexityForm() {
                   <div className="flex">
                     {form.values?.weakConditions?.slice(0, -1).map((condition, index) => (
                       <Fragment key={condition}>
-                        <Chip size="md" color="primary">
+                        <Chip size="md" color="primary" className="uppercase">
                           {condition}
                         </Chip>
                         {index < form.values.weakConditions.length - 2 && <span>,&nbsp;</span>}
@@ -383,7 +389,7 @@ export function ConvexityForm() {
                     {form.values.weakConditions?.length > 1 && <span>&nbsp;and&nbsp;</span>}
                     {form.values?.weakConditions?.slice(-1).map(condition => (
                       <>
-                        <Chip key={condition} size="md" color="primary">
+                        <Chip key={condition} size="md" color="primary" className="uppercase">
                           {condition}
                         </Chip>
                       </>

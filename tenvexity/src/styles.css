@@ -30,13 +30,22 @@ ul[data-slot='listbox'] {
   .site-title.sl-flex {
     gap: 5px;
   }
+
+  .header .sl-flex {
+    justify-content: center;
+  }
 }
 
 :root[data-theme='light'],
 [data-theme='light'] ::backdrop {
   --sl-color-text-accent: #12b886;
-  --sl-color-bg: hsl(0, 0%, 100%);
+  --sl-color-bg: hsl(240 4.76% 95.88%);
   --sl-color-bg-nav: var(--sl-color-bg);
+
+  .main-input,
+  .variable-select-trigger {
+    background-color: white;
+  }
 }
 
 .MathJax svg {

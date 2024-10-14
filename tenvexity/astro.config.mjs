@@ -7,9 +7,9 @@ import react from '@astrojs/react';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://tenvexity.einsum.org',
   integrations: [
     starlight({
-      url: 'https://tenvexity.einsum.org',
       title: 'Tenvexity',
       logo: {
         src: './public/favicon.svg',

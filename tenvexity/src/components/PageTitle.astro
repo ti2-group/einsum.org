@@ -1,13 +1,19 @@
 ---
 import type { Props } from '@astrojs/starlight/props';
 import Default from '@astrojs/starlight/components/PageTitle.astro';
+import { Chip } from '@nextui-org/react';
 
 const isHomepage = Astro.props.slug === '';
 ---
 
 {
   isHomepage ? (
-    <h1>Is it convex?</h1>    
+    <div class="text-center">
+      <h1>
+        Is it <span class="text-white bg-success p-2 px-4 rounded-full mx-1 uppercase">convex</span>{' '}
+        ?
+      </h1>
+    </div>
   ) : (
     <Default {...Astro.props}>
       <slot />
