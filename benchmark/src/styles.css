@@ -32,7 +32,6 @@ ul {
 ::backdrop {
   --sl-color-bg-nav: var(--sl-color-bg);
   --sl-color-bg-sidebar: var(--sl-color-bg);
-  --sl-content-width: 1024px;
   header {
     border-bottom-width: 0px;
   }
