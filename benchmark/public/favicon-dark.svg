@@ -10,11 +10,11 @@
   </style>
   <line x1="80" x2="370" y1="80" y2="80" class="edge" />
   <line x1="80" x2="370" y1="370" y2="370" class="edge" />
-  <line x1="80" x2="190" y1="80" y2="200" class="edge" />
-  <line x1="80" x2="190" y1="370" y2="200" class="edge" />
+  <line x1="80" x2="190" y1="80" y2="225" class="edge" />
+  <line x1="80" x2="190" y1="370" y2="225" class="edge" />
   <circle cx="80" cy="80" r="60" class="tensor" />
   <circle cx="370" cy="80" r="60" class="tensor" />
   <circle cx="370" cy="370" r="60" class="tensor" />
   <circle cx="80" cy="370" r="60" class="tensor" />
-  <circle cx="190" cy="200" r="60" class="tensor" />
+  <circle cx="190" cy="225" r="60" class="tensor" />
 </svg>

@@ -17,6 +17,29 @@ export default defineConfig({
         dark: './public/favicon-dark.svg',
         replacesTitle: true,
       },
+      favicon: 'favicon.svg',
+      head: [
+        {
+          tag: 'link',
+          attrs: {
+            rel: 'icon',
+            type: 'image/png',
+            href: '/favicon/favicon-48x48.png',
+            sizes: '48x48',
+          },
+        },
+        { tag: 'link', attrs: { rel: 'shortcut icon', href: '/favicon.ico' } },
+        {
+          tag: 'link',
+          attrs: {
+            rel: 'apple-touch-icon',
+            sizes: '180x180',
+            href: '/favicon/apple-touch-icon.png',
+          },
+        },
+        { tag: 'meta', attrs: { name: 'apple-mobile-web-app-title', content: 'Benchmark' } },
+        { tag: 'link', attrs: { rel: 'manifest', href: '/favicon/site.webmanifest' } },
+      ],
       social: {
         github: 'https://github.com/ti2-group/einsum_benchmark',
       },
