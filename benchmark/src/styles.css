@@ -20,6 +20,10 @@ ul[data-slot='listbox'] {
   font-size: 14px;
 }
 
+.expressive-code {
+  text-align: left;
+}
+
 ul {
   text-align: left;
 }
