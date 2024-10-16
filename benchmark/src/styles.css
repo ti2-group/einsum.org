@@ -32,14 +32,6 @@ ul {
 ::backdrop {
   --sl-color-bg-nav: var(--sl-color-bg);
   --sl-color-bg-sidebar: var(--sl-color-bg);
-  header {
-    border-bottom-width: 0px;
-  }
-
-  #starlight__sidebar {
-    border-right-width: 0px;
-    padding-right: 3px;
-  }
 
   #_top {
     margin-top: 0;

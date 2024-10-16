@@ -2,9 +2,10 @@
 import type { Props } from '@astrojs/starlight/props';
 import MobileMenuToggle from '@astrojs/starlight/components/MobileMenuToggle.astro';
 
-const hideSidebarClass = Astro.props.entry.data.hideSidebar ? 'min-[800px]:hidden' : '';
-const paddingClass = Astro.props.entry.data.hideSidebar ? 'pl-5' : '';
-console.log(Astro.props.entry.data.hideSidebar, hideSidebarClass);
+const hideSidebar = Astro.props.entry.data.hideSidebar;
+
+const hideSidebarClass = hideSidebar ? 'min-[800px]:hidden' : '';
+const paddingClass = hideSidebar ? 'pl-5' : '';
 ---
 
 <div class="page sl-flex">
@@ -20,7 +21,26 @@ console.log(Astro.props.entry.data.hideSidebar, hideSidebarClass);
   <div class={`main-frame ${paddingClass}`}><slot /></div>
 </div>
 
+{hideSidebar && (
+
+  <style>
+    .sl-container {
+      margin-inline: var(--sl-content-margin-inline, auto);
+    }
+      :root, ::backdrop {    
+        --sl-content-width: 900px;
+        header {
+          border-bottom-width: 0px;
+        }
+        .header {
+          grid-template-columns: max(40px, calc(((100% - var(--sl-content-width)) / 2 - var(--sl-nav-gap) + var(--sl-content-pad-x) / 2 ))) 1fr auto;
+        }
+    }
+  </style>
+)}
+
 <style>
+  
   .page {
     flex-direction: column;
     min-height: 100vh;
@@ -40,7 +60,7 @@ console.log(Astro.props.entry.data.hideSidebar, hideSidebarClass);
   }
 
   :global([data-has-sidebar]) .header {
-    /* padding-inline-end: calc(var(--sl-nav-gap) + var(--sl-nav-pad-x) + var(--sl-menu-button-size)); */
+    padding-inline-end: calc(var(--sl-nav-gap) + var(--sl-nav-pad-x) + var(--sl-menu-button-size));
   }
 
   .sidebar-pane {
