@@ -1,0 +1,21 @@
+---
+import type { Props } from '@astrojs/starlight/props';
+import Default from '@astrojs/starlight/components/Search.astro';
+import { Link } from '@nextui-org/react';
+---
+
+<style>
+  @media (min-width: 800px) {
+    #starlight__sidebar {
+      display: none;
+    }
+  }
+</style>
+
+<Link href="/guides/gettingstarted" className="mr-4 max-[800px]:hidden" color="foreground"
+  >Documentation</Link
+>
+<Link href="/experiments" color="foreground" className="max-[800px]:hidden">Experiments</Link>
+<Link href="/team" className="mx-4 max-[800px]:hidden" color="foreground">Team</Link>
+<div style="flex-grow: 1;"></div>
+<Default {...Astro.props}><slot /></Default>

@@ -1,0 +1,21 @@
+---
+import type { Props } from '@astrojs/starlight/props';
+import Default from '@astrojs/starlight/components/PageTitle.astro';
+
+const isHomepage = Astro.props.slug === '';
+---
+
+{
+  isHomepage ? (
+    <div class="text-center sl-markdown-content">
+      <h1 class="mt-8">Einsum Benchmark</h1>
+      <div class="text-lg pt-1">
+        Enabling the Development of Next-Generation Tensor Execution Engines
+      </div>
+    </div>
+  ) : (
+    <Default {...Astro.props}>
+      <slot />
+    </Default>
+  )
+}

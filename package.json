@@ -6,6 +6,9 @@
     "tenvexity:dev": "astro --root ./tenvexity dev",
     "tenvexity:build": "astro --root ./tenvexity build",
     "tenvexity:preview": "astro --root ./tenvexity preview",
+    "benchmark:dev": "astro --root ./benchmark dev",
+    "benchmark:build": "astro --root ./benchmark build",
+    "benchmark:preview": "astro --root ./benchmark preview",
     "astro": "astro"
   },
   "dependencies": {

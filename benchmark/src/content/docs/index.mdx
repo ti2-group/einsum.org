@@ -1,0 +1,112 @@
+---
+title: "Einsum Benchmark"
+description: "Enabling the Development of Next-Generation Tensor Execution Engines"
+tableOfContents: false
+hideSidebar: true
+editUrl: false
+next: false
+prev: false
+---
+
+import { Icon } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { LinkButton } from '@astrojs/starlight/components';
+
+<div class="text-center">
+<div class="mt-0">
+<LinkButton href="/guides/gettingstarted">Install Benchmark Package</LinkButton>
+<LinkButton icon="external" href="https://zenodo.org/record/11477304" variant='secondary'>Download Dataset</LinkButton>
+</div>
+<p style="margin-top:0;">CC BY 4.0 License ([Acknowledgements](/acknowledgements))</p>
+
+## Quick Start
+
+<Tabs>
+<TabItem label="Python Package" >
+To install the base package, Python 3.10 or higher is required.
+
+```bash
+pip install einsum_benchmark
+```
+
+Afterwards you can load and run an instance like this:
+
+```python
+import opt_einsum as oe
+import einsum_benchmark
+
+instance = einsum_benchmark.instances["qc_circuit_n49_m14_s9_e6_pEFGH_simplified"]
+
+opt_size_path_meta = instance.paths.opt_size
+print("Size optimized path")
+print("log10[FLOPS]:", round(opt_size_path_meta.flops, 2))
+print("log2[SIZE]:", round(opt_size_path_meta.size, 2))
+result = oe.contract(
+    instance.format_string, *instance.tensors, optimize=opt_size_path_meta.path
+)
+print("sum[OUTPUT]:", result.sum(), instance.result_sum)
+```
+</TabItem>
+<TabItem label="Raw Dataset" >
+Download and unzip the dataset from [zenodo](https://zenodo.org/records/11477304). Afterwards, install opt_einsum and numpy.
+
+```bash
+pip install opt_einsum numpy
+```
+
+Now you can load and run an instance like this:
+
+```python
+import opt_einsum as oe
+import pickle
+import numpy as np
+
+if __name__ == "__main__":
+
+    with open(
+        "./instances/qc_circuit_n49_m14_s9_e6_pEFGH_simplified.pkl", "rb"
+    ) as file:
+        format_string, tensors, path_meta, sum_output = pickle.load(file)
+
+    # path optimized for minimal intermediate size
+    path, size_log2, flops_log10, min_density, avg_density = path_meta[0]
+    # path optimized for minimal total flops is stored und the key 1 in path_meta
+    print("Size optimized path")
+    print("log10[FLOPS]:", round(flops_log10, 2))
+    print("log2[SIZE]:", round(size_log2, 2))
+    result = oe.contract(format_string, *tensors, optimize=path)
+    print("sum[OUTPUT]:", np.sum(result), sum_output)
+```
+</TabItem>
+</Tabs>
+
+For more information please check out [Getting Started](< ref "/docs/guides/gettingstarted"  >)
+
+## Why was this benchmark compiled?
+
+Modern artificial intelligence and machine learning workflows rely on efficient tensor libraries.
+Current einsum libraries are tuned to efficiently execute tensor expressions with only a few, relatively large, dense, **_floating-point_** tensors.
+But, practical applications of einsum cover a much broader range of tensor expressions than those that can currently be executed efficiently.
+For this reason, we have created a benchmark dataset that encompasses this broad range of
+tensor expressions, allowing future implementations of einsum to build upon and
+be evaluated against.
+
+## Overview of the instances in the dataset
+
+The benchmark dataset consists of 168 einsum problems divided into seven categories.
+Hyperedges means that an einsum problem contains contraction indices that are shared by more than two tensors.
+Hadamard products are element-wise multiplication operations performed between two tensors of identical dimensions.
+And, repeating indices within a single tensor represent either tensor traces or tensor diagonals, as indicated by the indices of the output tensor.
+
+<div class="mx-auto min-w-96 md:w-10/12 lg:w-3/4 ">
+| **Category**                   | **Problems** | **Tensors**  | **Hyperedges**                                                                                                                    | **Hadamards**                                                                                                                     | **Traces**                                                                                                                        |
+| ------------------------------ | ------------ | ------------ | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| Graphical models               | 10           | 125--3,692   | <Icon name="approve-check" color="green" class="mx-auto" /> | <Icon name="close" color="red" class="mx-auto" />    | <Icon name="close" color="red" class="mx-auto" />    |
+| Tensor network language models | 25           | 38--178      | <Icon name="close" color="red" class="mx-auto" />    | <Icon name="close" color="red" class="mx-auto" />    | <Icon name="close" color="red" class="mx-auto" />    |
+| Model counting                 | 50           | 331--579,972 | <Icon name="approve-check" color="green" class="mx-auto" />| <Icon name="approve-check" color="green" class="mx-auto" />| <Icon name="approve-check" color="green" class="mx-auto" />|
+| Quantum computing              | 32           | 202--17,136  | <Icon name="approve-check" color="green" class="mx-auto" />| <Icon name="approve-check" color="green" class="mx-auto" />| <Icon name="close" color="red" class="mx-auto" />    |
+| Random problems                | 16           | 53--1,668    | <Icon name="approve-check" color="green" class="mx-auto" />| <Icon name="approve-check" color="green" class="mx-auto" />| <Icon name="approve-check" color="green" class="mx-auto" />|
+| Structural problems            | 21           | 26--2,000    | <Icon name="close" color="red" class="mx-auto" />    | <Icon name="close" color="red" class="mx-auto" />    | <Icon name="close" color="red" class="mx-auto" />    |
+| Weighted model counting        | 14           | 358--230,848 | <Icon name="approve-check" color="green" class="mx-auto" />| <Icon name="approve-check" color="green" class="mx-auto" />| <Icon name="approve-check" color="green" class="mx-auto" />|
+</div>
+</div>

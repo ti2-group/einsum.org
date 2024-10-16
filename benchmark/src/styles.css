@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+Add additional Tailwind styles to this file, for example with @layer:
+https://tailwindcss.com/docs/adding-custom-styles#using-css-and-layer
+*/
+
+ul[data-slot='listbox'] {
+  padding-inline-start: 0;
+}
+
+.content-panel + .content-panel {
+  border-top: none;
+  padding-top: 0;
+}
+
+.experiments table {
+  font-size: 14px;
+}
+
+ul {
+  text-align: left;
+}
+
+:root,
+::backdrop {
+  --sl-color-bg-nav: var(--sl-color-bg);
+  --sl-color-bg-sidebar: var(--sl-color-bg);
+  --sl-content-width: 1024px;
+  header {
+    border-bottom-width: 0px;
+  }
+
+  #starlight__sidebar {
+    border-right-width: 0px;
+    padding-right: 3px;
+  }
+
+  #_top {
+    margin-top: 0;
+  }
+
+  .content-panel:first-of-type {
+    padding-top: 16px !important;
+  }
+
+  .site-title.sl-flex {
+    gap: 5px;
+  }
+
+  .header button[aria-label='Search'] {
+    max-width: 140px;
+  }
+}
+
+:root[data-theme='light'],
+[data-theme='light'] ::backdrop {
+  --sl-color-bg-nav: var(--sl-color-bg);
+
+  .main-input,
+  .variable-select-trigger {
+    background-color: white;
+  }
+}
+
+.MathJax svg {
+  display: inline !important;
+}

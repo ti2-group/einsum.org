@@ -16,9 +16,6 @@ ul[data-slot='listbox'] {
   padding-top: 0;
 }
 
-.html {
-  background-color: #f1f3f5;
-}
 :root,
 ::backdrop {
   --sl-color-text-accent: #12b886;

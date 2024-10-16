@@ -1,0 +1,80 @@
+---
+title: "Team"
+description: "Meet the team behind the project"
+prev: false
+next: false
+template: doc
+hideSidebar: true
+editUrl: false
+tableOfContents: false
+---
+
+import TeamMember from './TeamMember';
+import { Image } from 'astro:assets';
+import christoph from './christoph_cropped.png';
+import julien from './julien_cropped.jpeg';
+import niklas from './niklas_cropped.jpeg';
+import joachim from './joachim_cropped.png';
+import alex from './alex_cropped.png';
+import soeren from './soeren_cropped.png';
+import mark from './mark_cropped.jpg';
+
+import { Card, Link, CardBody, CardFooter, CardHeader } from '@nextui-org/react';
+
+<div class="team-section not-content place-content-center justify-center">
+  <div class="grid grid-cols-1 min-[500px]:grid-cols-2  md:grid-cols-3 lg:grid-cols-4 gap-8 md:gap-6">
+  <div>
+      <TeamMember
+        name="Mark Blacher"
+        role="Researcher at Friedrich Schiller University Jena."        
+        profileLink="https://dblp.uni-trier.de/pid/277/9082.html"
+      >
+        <Image src={mark} alt="Mark Blacher" height="220" class="w-full object-cover" densities={[1.5, 2]}/>
+      </TeamMember>
+      </div>
+      <div>
+      <TeamMember
+        name="Christoph Staudt"
+        role="Researcher at Friedrich Schiller University Jena."
+        profileLink="https://dblp.uni-trier.de/pid/299/5431.html"
+      >
+      <Image src={christoph} alt="Christoph Staudt" height="220" class="w-full object-cover" densities={[1.5, 2]}/>
+      </TeamMember>
+      </div>
+      <TeamMember
+        name="Julien Klaus"
+        role="Researcher at Friedrich Schiller University Jena."
+        profileLink="https://dblp.uni-trier.de/pid/246/1576.html"
+      >
+      <Image src={julien} alt="Julien Klaus" height="220" class="w-full object-cover" densities={[1.5, 2]}/>
+      </TeamMember>
+      <TeamMember
+        name="Niklas Merk"
+        role="Researcher at Friedrich Schiller University Jena."
+        profileLink="https://dblp.uni-trier.de/pid/331/6061.html"
+      >
+      <Image src={niklas} alt="Niklas Merk" height="220" class="w-full object-cover" densities={[1.5, 2]}/>
+      </TeamMember>
+      <TeamMember
+        name="Joachim Giesen"
+        role="Professor at Friedrich Schiller University Jena."
+        profileLink="https://dblp.uni-trier.de/pid/30/3504.html"
+      >
+      <Image src={joachim} alt="Joachim Giesen"  height="220" class="w-full object-cover"  densities={[1.5, 2]}/>
+      </TeamMember>
+      <TeamMember
+        name="Alexander Breuer"
+        role="Professor at Friedrich Schiller University Jena."
+        profileLink="https://dblp.uni-trier.de/pid/121/4050.html"
+      >
+      <Image src={alex} alt="Alexander Breuer" height="220" class="w-full object-cover" densities={[1.5, 2]}/>
+      </TeamMember>
+      <TeamMember
+        name="Sören Laue"
+        role="Professor at Universität Hamburg."        
+        profileLink="https://dblp.uni-trier.de/pid/71/5078.html"
+      >
+      <Image src={soeren} alt="Sören Laue" height="220" class="w-full object-cover" densities={[1.5, 2]}/>
+      </TeamMember>
+  </div>
+</div>
