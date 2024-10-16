@@ -1,17 +1,6 @@
 ---
-title: "Getting started"
+title: "Getting Started"
 description: "How to install our python package and using it to load an instance"
-summary: ""
-date: 2024-06-04T18:33:55+02:00
-lastmod: 2024-06-04T18:34:16+02:00
-draft: false
-weight: 100
-toc: true
-seo:
-  title: "" # custom title (optional)
-  description: "" # custom description (recommended)
-  canonical: "" # custom canonical URL (optional)
-  noindex: false # false (default) or true
 ---
 
 ## Installation

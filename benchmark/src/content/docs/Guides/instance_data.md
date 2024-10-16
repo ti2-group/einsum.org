@@ -1,12 +1,6 @@
 ---
 title: "Benchmark Instance Data"
 description: "Explanation of the data included for each benchmark instance"
-summary: ""
-date: 2024-06-06T11:40:09+02:00
-lastmod: 2024-06-06T11:40:11+02:00
-draft: false
-weight: 200
-toc: true
 ---
 
 Every instance in `einsum_benchmark.instances` is a Python `BenchMarkInstance` named tuple, that is used to store all relevant information about the instance. It contains the following fields:

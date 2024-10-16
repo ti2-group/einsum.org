@@ -1,12 +1,7 @@
 ---
 title: "Meta Reference"
-description: ""
-summary: ""
-date: 2024-06-06T11:40:09+02:00
-lastmod: 2024-06-06T11:40:11+02:00
-draft: false
-weight: 400
-toc: true
+description: "List of all functions under meta"
+next: false
 ---
 
 <!-- markdownlint-disable -->
