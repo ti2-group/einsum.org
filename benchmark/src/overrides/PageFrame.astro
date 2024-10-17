@@ -20,9 +20,9 @@ const paddingClass = hideSidebar ? 'pl-5' : '';
     </div>
   </nav>
   <div class={`main-frame ${paddingClass}`}><slot /></div>
-  <div class="footer text-center pb-2 flex justify-center gap-4">
-    <Link href="https://www.ti2.uni-jena.de/6/legal-notice" isExternal showAnchorIcon>Imprint / Legal</Link>
-    <span>Made by <Link href="https://www.ti2.uni-jena.de/" isExternal showAnchorIcon>TI 2 Jena</Link></span>
+  <div class="footer text-center pb-2">
+    <Link href="https://www.ti2.uni-jena.de/6/legal-notice" isExternal showAnchorIcon className='border-r-1 pr-2 mr-2'>Imprint / Legal</Link>
+    <div class="inline">Made by <Link href="https://www.ti2.uni-jena.de/" isExternal showAnchorIcon>TI 2 Jena</Link></div>
   </div>
 </div>
 
