@@ -37,7 +37,7 @@ export default {
       },
     },
   },
-  darkMode: 'class',
+  darkMode: ['selector', '[data-theme="dark"]'],
   plugins: [
     starlightPlugin(),
     nextui({
@@ -45,6 +45,15 @@ export default {
         light: {
           colors: {
             primary: { ...primaryColors, foreground: '#fff', DEFAULT: primaryColors['500'] },
+          },
+        },
+        dark: {
+          colors: {
+            primary: {
+              ...invertedPrimaryColors,
+              foreground: '#000',
+              DEFAULT: invertedPrimaryColors['800'],
+            },
           },
         },
       },
