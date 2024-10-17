@@ -65,6 +65,24 @@ header {
   height: 1.5em !important;
 }
 
+.sl-link-button {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.sl-link-button svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.button-group .sl-link-button {
+  margin-bottom: 0;
+}
+
+.button-group {
+  margin-bottom: 1rem;
+}
+
 #starlight__sidebar {
   border-right-width: 0 !important;
 }

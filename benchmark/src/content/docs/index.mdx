@@ -13,7 +13,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 import { LinkButton } from '@astrojs/starlight/components';
 
 <div class="text-center">
-<div class="mt-0">
+<div class="mt-0 button-group">
 <LinkButton href="/documentation/guides/gettingstarted">Install Benchmark Package</LinkButton>
 <LinkButton icon="external" href="https://zenodo.org/record/11477304" variant='secondary'>Download Dataset</LinkButton>
 </div>
@@ -100,7 +100,7 @@ Hyperedges means that an einsum problem contains contraction indices that are sh
 Hadamard products are element-wise multiplication operations performed between two tensors of identical dimensions.
 And, repeating indices within a single tensor represent either tensor traces or tensor diagonals, as indicated by the indices of the output tensor.
 
-<div class="mx-auto min-w-96 md:w-10/12 lg:w-3/4 ">
+<div class="mx-auto md:w-10/12 lg:w-3/4 ">
 | **Category**                   | **Problems** | **Tensors**  | **Hyperedges**                                                                                                                    | **Hadamards**                                                                                                                     | **Traces**                                                                                                                        |
 | ------------------------------ | ------------ | ------------ | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | Graphical models               | 10           | 125--3,692   | <Icon name="approve-check" color="green" class="mx-auto" /> | <Icon name="close" color="red" class="mx-auto" />    | <Icon name="close" color="red" class="mx-auto" />    |
