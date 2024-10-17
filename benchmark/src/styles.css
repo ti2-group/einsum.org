@@ -33,32 +33,46 @@ ul {
   --sl-color-bg: #000;
   --sl-color-bg-nav: var(--sl-color-bg);
   --sl-color-bg-sidebar: var(--sl-color-bg);
+}
 
-  #_top {
-    margin-top: 0;
-  }
+#_top {
+  margin-top: 0;
+}
 
-  .content-panel:first-of-type {
-    padding-top: 16px !important;
-  }
+.header {
+  grid-template-columns: 50px 1fr auto !important;
+}
 
-  .site-title.sl-flex {
-    gap: 5px;
-  }
+.header button[aria-label='Search'] {
+  max-width: 140px;
+}
 
-  .header button[aria-label='Search'] {
-    max-width: 140px;
-  }
+header {
+  border-bottom-width: 0px !important;
+}
 
-  .sidebar button {
-    box-shadow: none;
-    --sl-menu-button-size: 2.5em;
+.content-panel:first-of-type {
+  padding-top: 16px !important;
+}
 
-    svg {
-      width: 1.5em;
-      height: 1.5em;
-    }
-  }
+.sidebar button {
+  box-shadow: none !important;
+  --sl-menu-button-size: 2.5em !important;
+}
+
+.sidebar button svg {
+  width: 1.5em !important;
+  height: 1.5em !important;
+}
+
+#starlight__sidebar {
+  border-right-width: 0 !important;
+}
+.right-sidebar {
+  border-left-width: 0 !important;
+}
+#starlight__on-this-page--mobile {
+  border-bottom-width: 0 !important;
 }
 
 :root[data-theme='light'],
