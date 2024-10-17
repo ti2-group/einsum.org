@@ -30,6 +30,7 @@ ul {
 
 :root,
 ::backdrop {
+  --sl-color-bg: #000;
   --sl-color-bg-nav: var(--sl-color-bg);
   --sl-color-bg-sidebar: var(--sl-color-bg);
 
@@ -62,6 +63,7 @@ ul {
 
 :root[data-theme='light'],
 [data-theme='light'] ::backdrop {
+  --sl-color-bg: #fff;
   --sl-color-bg-nav: var(--sl-color-bg);
 
   .main-input,

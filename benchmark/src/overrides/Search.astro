@@ -21,7 +21,7 @@ const withActiveLinks = links.map(link => {
 ---
 
 <div class="hidden lg:block mr-2">
-  <Link href="/" className="-left-4 text-primary-500 font-bold text-xl pt-1.5 mr-10"
+  <Link href="/" className="-left-4 text-primary-500 font-bold text-xl pt-1.5 mr-10 dark:text-white"
     >Einsum Benchmark</Link
   >
 </div>
@@ -30,7 +30,7 @@ const withActiveLinks = links.map(link => {
     <Link
       href={link.href}
       color="foreground"
-      className={`mr-4 max-[800px]:hidden font-bold ${link.active && 'bg-primary-500 text-white rounded-md px-5'}`}
+      className={`max-[800px]:hidden px-4 font-bold ${link.active && 'bg-primary text-white dark:text-black rounded-md'}`}
     >
       {link.text}
     </Link>

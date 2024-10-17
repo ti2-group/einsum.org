@@ -27,20 +27,29 @@ const paddingClass = hideSidebar ? 'pl-5' : '';
     .sl-container {
       margin-inline: var(--sl-content-margin-inline, auto);
     }
-      :root, ::backdrop {    
+    :root, ::backdrop {
         --sl-content-width: 900px;
-        header {
-          border-bottom-width: 0px;
-        }
     }
   </style>
 )}
 
 <style>
   :root, ::backdrop {    
-        .header {
-          grid-template-columns: 50px 1fr auto;
-        }
+     header {
+          border-bottom-width: 0px;
+      }
+     .header {
+        grid-template-columns: 50px 1fr auto;
+      }
+      #starlight__sidebar {
+        border-right-width: 0;
+      }
+      .right-sidebar {
+        border-left-width: 0;
+      }
+      #starlight__on-this-page--mobile {
+        border-bottom-width: 0;
+      }
     }
   .page {
     flex-direction: column;
