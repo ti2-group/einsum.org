@@ -1,6 +1,7 @@
 ---
 import type { Props } from '@astrojs/starlight/props';
 import MobileMenuToggle from '@astrojs/starlight/components/MobileMenuToggle.astro';
+import { Link } from '@nextui-org/react';
 
 const hideSidebar = Astro.props.entry.data.hideSidebar;
 
@@ -19,6 +20,10 @@ const paddingClass = hideSidebar ? 'pl-5' : '';
     </div>
   </nav>
   <div class={`main-frame ${paddingClass}`}><slot /></div>
+  <div class="footer text-center pb-2 flex justify-center gap-4">
+    <Link href="https://www.ti2.uni-jena.de/6/legal-notice" isExternal showAnchorIcon>Imprint / Legal</Link>
+    <span>Made by <Link href="https://www.ti2.uni-jena.de/" isExternal showAnchorIcon>TI 2 Jena</Link></span>
+  </div>
 </div>
 
 {hideSidebar && (
