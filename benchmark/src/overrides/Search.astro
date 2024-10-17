@@ -2,12 +2,39 @@
 import type { Props } from '@astrojs/starlight/props';
 import Default from '@astrojs/starlight/components/Search.astro';
 import { Link } from '@nextui-org/react';
+
+const links = [
+  { href: '/documentation/guides/gettingstarted', text: 'Documentation' },
+  { href: '/experiments', text: 'Experiments' },
+  { href: '/team', text: 'Team' },
+];
+
+const getTopLevel = (pathname: string) => {
+  return pathname.split('/')[1];
+};
+
+const currentBase = getTopLevel(Astro.url.pathname);
+
+const withActiveLinks = links.map(link => {
+  return { ...link, active: getTopLevel(link.href) === currentBase };
+});
 ---
 
-<Link href="/guides/gettingstarted" className="mr-4 max-[800px]:hidden" color="foreground"
-  >Documentation</Link
->
-<Link href="/experiments" color="foreground" className="max-[800px]:hidden">Experiments</Link>
-<Link href="/team" className="mx-4 max-[800px]:hidden" color="foreground">Team</Link>
+<div class="hidden lg:block mr-2">
+  <Link href="/" className="-left-4 text-primary-500 font-bold text-xl pt-1.5 mr-10"
+    >Einsum Benchmark</Link
+  >
+</div>
+{
+  withActiveLinks.map(link => (
+    <Link
+      href={link.href}
+      color="foreground"
+      className={`mr-4 max-[800px]:hidden font-bold ${link.active && 'bg-primary-500 text-white rounded-md px-5'}`}
+    >
+      {link.text}
+    </Link>
+  ))
+}
 <div style="flex-grow: 1;"></div>
 <Default {...Astro.props}><slot /></Default>

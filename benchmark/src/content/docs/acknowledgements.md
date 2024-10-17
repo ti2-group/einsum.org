@@ -3,6 +3,7 @@ title: "Acknowledgements"
 description: "List of all public resources we used while creating this dataset"
 tableOfContents: false
 template: splash
+hideSidebar: true
 sidebar:
     hidden: true
 ---

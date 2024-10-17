@@ -17,6 +17,7 @@ export default defineConfig({
         dark: './public/favicon-dark.svg',
         replacesTitle: true,
       },
+      // Set main and additional favicons
       favicon: 'favicon.svg',
       head: [
         {
@@ -56,9 +57,9 @@ export default defineConfig({
         { label: 'Home', slug: '' },
         {
           label: 'Guides',
-          autogenerate: { directory: 'Guides' },
+          autogenerate: { directory: 'Documentation/Guides' },
         },
-        { label: 'Reference', autogenerate: { directory: 'Reference' } },
+        { label: 'Reference', autogenerate: { directory: 'Documentation/Reference' } },
         { label: 'Experiments', slug: 'experiments' },
         { label: 'Team', slug: 'team', attrs: { class: 'sm:hidden' } },
       ],

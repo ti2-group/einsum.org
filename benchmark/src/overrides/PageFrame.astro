@@ -32,15 +32,16 @@ const paddingClass = hideSidebar ? 'pl-5' : '';
         header {
           border-bottom-width: 0px;
         }
-        .header {
-          grid-template-columns: max(40px, calc(((100% - var(--sl-content-width)) / 2 - var(--sl-nav-gap) + var(--sl-content-pad-x) / 2 ))) 1fr auto;
-        }
     }
   </style>
 )}
 
 <style>
-  
+  :root, ::backdrop {    
+        .header {
+          grid-template-columns: 50px 1fr auto;
+        }
+    }
   .page {
     flex-direction: column;
     min-height: 100vh;

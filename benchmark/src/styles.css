@@ -48,6 +48,16 @@ ul {
   .header button[aria-label='Search'] {
     max-width: 140px;
   }
+
+  .sidebar button {
+    box-shadow: none;
+    --sl-menu-button-size: 2.5em;
+
+    svg {
+      width: 1.5em;
+      height: 1.5em;
+    }
+  }
 }
 
 :root[data-theme='light'],
