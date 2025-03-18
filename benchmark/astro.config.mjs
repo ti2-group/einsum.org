@@ -70,6 +70,13 @@ export default defineConfig({
     }),
     react(),
   ],
+  navLinks: [
+    { label: 'Home', href: '/' },
+    { label: 'Guides', href: '/guides' },
+    { label: 'Reference', href: '/reference' },
+    { label: 'Experiments', href: '/experiments' },
+    { label: 'Team', href: '/team' },
+  ],
   markdown: {
     remarkPlugins: [remarkMath],
     rehypePlugins: [rehypeMathjax],
