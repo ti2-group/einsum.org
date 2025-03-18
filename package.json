@@ -9,6 +9,7 @@
     "benchmark:dev": "astro --root ./benchmark dev",
     "benchmark:build": "astro --root ./benchmark build",
     "benchmark:preview": "astro --root ./benchmark preview",
+    "sql:dev": "astro --root ./sql dev",
     "astro": "astro"
   },
   "dependencies": {
