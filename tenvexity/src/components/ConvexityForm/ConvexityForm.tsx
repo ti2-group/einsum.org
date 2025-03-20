@@ -21,7 +21,8 @@ import {
   Button,
   Input,
   Card,
-} from "@heroui/react";
+  NumberInput,
+} from '@heroui/react';
 import VarConfTags from './VarConfTags';
 
 let controller: AbortController;
@@ -420,26 +421,26 @@ export function ConvexityForm() {
                     <h4>{varConf.name}</h4>
                   </TableCell>
                   <TableCell>
-                    <Input
-                      aria-label="Order"
-                      type="number"
+                    <NumberInput
                       size="sm"
-                      value={varConf.order.toString()}
-                      required={true}
+                      minValue={0}
+                      value={varConf.order}
+                      required
+                      aria-label="Order"
+                      className="w-16"
+                      hideStepper
+                      classNames={{
+                        inputWrapper: 'h-4',
+                      }}
                       isDisabled={loadingState?.includes(varConf.name)}
-                      onChange={event => {
-                        let intValue = parseInt(event.target.value);
-                        if (intValue < 0) {
-                          intValue = 0;
-                        }
-                        form.setFieldValue(`variables.${variable}.order`, intValue);
+                      onValueChange={value => {
                         updateVariable(variable, {
                           ...varConf,
-                          order: intValue,
+                          order: value,
                         });
                       }}
                       errorMessage={!!form.errors[`variables.${variable}.interval.upper`]}
-                    />
+                    ></NumberInput>
                   </TableCell>
                   <TableCell>
                     <div className="flex gap-1">
