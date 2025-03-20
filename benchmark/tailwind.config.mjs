@@ -1,6 +1,6 @@
 import colors from 'tailwindcss/colors';
 import starlightPlugin from '@astrojs/starlight-tailwind';
-import { lightLayout, nextui } from '@nextui-org/react';
+import { lightLayout, heroui } from '@heroui/react';
 
 const primaryColors = {
   100: '#C5E8F6',
@@ -16,7 +16,7 @@ const primaryColors = {
 
 const invertedPrimaryColors = Object.fromEntries(
   Object.entries(primaryColors).map(([key, value]) => [1000 - key, value]),
-);
+);>
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -24,7 +24,7 @@ export default {
     relative: true,
     files: [
       './src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}',
-      '../node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
+      '../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}',
     ],
   },
   theme: {
@@ -40,7 +40,7 @@ export default {
   darkMode: ['selector', '[data-theme="dark"]'],
   plugins: [
     starlightPlugin(),
-    nextui({
+    heroui({
       themes: {
         light: {
           colors: {

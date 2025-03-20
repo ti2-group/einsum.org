@@ -3,14 +3,14 @@ import { StrictMode } from "react";
 // import { theme } from './theme';
 
 import { ConvexityForm } from "./ConvexityForm/ConvexityForm";
-import { NextUIProvider } from "@nextui-org/react";
+import { HeroUIProvider } from "@heroui/react";
 
 export default function App() {
   return (
     <StrictMode>
-      <NextUIProvider disableRipple>
+      <HeroUIProvider disableRipple>
         <ConvexityForm />
-      </NextUIProvider>
+      </HeroUIProvider>
     </StrictMode>
   );
 }

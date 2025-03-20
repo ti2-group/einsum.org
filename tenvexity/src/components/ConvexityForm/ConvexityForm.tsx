@@ -21,7 +21,7 @@ import {
   Button,
   Input,
   Card,
-} from '@nextui-org/react';
+} from "@heroui/react";
 import VarConfTags from './VarConfTags';
 
 let controller: AbortController;

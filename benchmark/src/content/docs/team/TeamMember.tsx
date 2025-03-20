@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Link, CardBody, CardFooter, CardHeader, Image } from '@nextui-org/react';
+import { Card, Link, CardBody, CardFooter, CardHeader, Image } from "@heroui/react";
 
 interface Props {
   name: string;

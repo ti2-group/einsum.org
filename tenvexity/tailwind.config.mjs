@@ -1,6 +1,6 @@
 import colors from "tailwindcss/colors";
 import starlightPlugin from "@astrojs/starlight-tailwind";
-import { nextui } from "@nextui-org/react";
+import { heroui } from "@heroui/react";
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -8,7 +8,7 @@ export default {
     relative: true,
     files: [
       "./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}",
-      "../node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
+      "../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}",
     ],
   },
   theme: {
@@ -26,5 +26,5 @@ export default {
     },
   },
   darkMode: "class",
-  plugins: [starlightPlugin(), nextui()],
+  plugins: [starlightPlugin(), heroui()],
 };

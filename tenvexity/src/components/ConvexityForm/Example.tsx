@@ -1,6 +1,6 @@
 import type { FormState } from './ConvexityForm';
 import { HighlightedCode } from './HighlightedCode';
-import { Card, CardBody } from '@nextui-org/react';
+import { Card, CardBody } from "@heroui/react";
 
 export function Example({
   title,
