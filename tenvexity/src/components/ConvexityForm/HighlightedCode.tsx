@@ -1,7 +1,8 @@
-import type { LanguageFn } from "highlight.js";
-import hljs from "highlight.js/lib/core";
+import type { LanguageFn } from 'highlight.js';
+import hljs from 'highlight.js/lib/core';
 
-import classes from "./HighlightedCode.module.css";
+import classes from './HighlightedCode.module.css';
+import pythonlang from 'highlight.js/lib/languages/python';
 
 const inputLang: LanguageFn = () => ({
   case_insensitive: true, // language is case-insensitive
@@ -11,64 +12,67 @@ const inputLang: LanguageFn = () => ({
   // },
   contains: [
     {
-      scope: "einsumExpression",
+      scope: 'einsumExpression',
       begin: /#\(/,
       end: /\)/,
       contains: [
         {
-          scope: "string",
+          scope: 'string',
           begin: "'",
           end: "'",
         },
         {
-          scope: "built_in",
+          scope: 'built_in',
           begin: /(log|exp|det)\(/,
           end: /\)/,
           contains: [
             {
-              scope: "variable",
+              scope: 'variable',
               match: /\w/,
             },
           ],
         },
-        { scope: "variable", match: /[A-Z]/ },
+        { scope: 'variable', match: /[A-Z]/ },
       ],
     },
     {
-      scope: "built_in",
+      scope: 'built_in',
       begin: /(log|exp|det)\(/,
       end: /\)/,
       contains: [
         {
-          scope: "variable",
+          scope: 'variable',
           match: /[A-Z]/,
         },
-        "self",
+        'self',
       ],
     },
-    { scope: "variable", match: /[A-Z]/ },
+    { scope: 'variable', match: /[A-Z]/ },
   ],
 });
 
-hljs.registerLanguage("einsum", inputLang);
+hljs.registerLanguage('einsum', inputLang);
 
-export function highlightExpression(expression: string) {
-  return hljs.highlight(expression, { language: "einsum" }).value;
+hljs.registerLanguage('python', pythonlang);
+export function highlightExpression(expression: string, lang = 'einsum') {
+  return hljs.highlight(expression, { language: lang }).value;
 }
 
 export function HighlightedCode({
   expression,
   style,
+  lang,
 }: {
   expression: string;
   style?: any;
+  lang?: string;
 }) {
   return (
     <pre
       className={classes.tenvexityCodeHighlight}
       style={style}
       dangerouslySetInnerHTML={{
-        __html: highlightExpression(expression),
+        __html: highlightExpression(expression, lang),
       }}
     />
   );

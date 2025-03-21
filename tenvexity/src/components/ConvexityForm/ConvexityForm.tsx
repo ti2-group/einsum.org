@@ -9,6 +9,9 @@ import { examples } from './examples';
 import { HighlightedCode } from './HighlightedCode';
 import TransposedVariableTable from './TransposedVariableTable';
 import VariableTable from './VariableTable';
+import { WithRegardTo } from './WithRegardTo';
+import TenvexityResultDisplay from './TenvexityResultDisplay';
+import CalculusResultsDisplay from './CalculusResultDisplay';
 
 let controller: AbortController;
 let signal: AbortSignal;
@@ -35,13 +38,6 @@ type Solution = {
 };
 
 type Colors = 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
-
-const resultToColorMap: { [key in Solution['result']]: Colors } = {
-  AFFINE: 'primary',
-  UKNOWN: 'default',
-  CONVEX: 'success',
-  CONCAVE: 'warning',
-};
 
 export type FormState = {
   expression: string;
@@ -131,7 +127,8 @@ export function ConvexityForm({ calculus }: { calculus: boolean }) {
         }
         controller = new AbortController();
         signal = controller.signal;
-        fetch('/api/', {
+        const url = calculus ? '/api/calculus' : '/api/convexity';
+        fetch(url, {
           method: 'POST',
           body: JSON.stringify(newValue),
           signal,
@@ -300,90 +297,22 @@ export function ConvexityForm({ calculus }: { calculus: boolean }) {
               <CircularProgress aria-label="loading" className="" size="md" />
             </div>
           )}
-          {errorComponent || (
-            <>
-              <div className="flex place-content-center my-3 gap-2 sm:text-xl">
-                <div className="place-content-center sm:text-xl">Is </div>
-                <Chip
-                  className="h-10 place-content-center mx-2uppercase sm:text-xl"
-                  color={
-                    form.values.result in resultToColorMap && !form.values.weak
-                      ? resultToColorMap[form.values.result]
-                      : 'default'
-                  }
-                >
-                  {form.values.strict ? 'strictly ' : ''}
-                  {form.values.weak ? 'UNKNOWN' : form.values.result.toLowerCase()}
-                </Chip>
-                <Select
-                  label="with regard to"
-                  labelPlacement="outside-left"
-                  aria-label="with regard to"
-                  variant="bordered"
-                  selectedKeys={form.values.wrt}
-                  className="max-w-xs text-nowrap "
-                  classNames={{
-                    label: 'sm:text-xl w-55 h-10 place-content-center pr-4',
-                    popoverContent: 'light:bg-white',
-                    trigger: 'variable-select-trigger',
-                  }}
-                  disabledKeys={[form.values.wrt]}
-                  onChange={e => {
-                    const val = e.target.value;
-                    if (loadingState === null && val !== null) {
-                      // setLoadingState('solution');
-                      // form.setFieldValue('wrt', val);
-                      updateForm({ ...form.values, wrt: val });
-                    }
-                  }}
-                  // allowDeselect={false}
-                  //   disabled={loadingState !== null}
-                >
-                  {variables.map(variable => (
-                    <SelectItem key={variable}>{variable}</SelectItem>
-                  ))}
-                </Select>
-              </div>
-              {form.values.weak && (
-                <div className="flex place-content-center gap-1 my-3">
-                  <span>It would be &nbsp;</span>
-                  <Chip
-                    color={
-                      form.values.result in resultToColorMap
-                        ? resultToColorMap[form.values.result]
-                        : 'default'
-                    }
-                    className="uppercase"
-                    size="md"
-                  >
-                    {form.values.result}
-                  </Chip>
-                  <span>
-                    &nbsp;if <strong>{form.values.wrt}</strong> were&nbsp;
-                  </span>
-                  <div className="flex">
-                    {form.values?.weakConditions?.slice(0, -1).map((condition, index) => (
-                      <Fragment key={condition}>
-                        <Chip size="md" color="primary" className="uppercase">
-                          {condition}
-                        </Chip>
-                        {index < form.values.weakConditions.length - 2 && <span>,&nbsp;</span>}
-                      </Fragment>
-                    ))}
-                    {form.values.weakConditions?.length > 1 && <span>&nbsp;and&nbsp;</span>}
-                    {form.values?.weakConditions?.slice(-1).map(condition => (
-                      <>
-                        <Chip key={condition} size="md" color="primary" className="uppercase">
-                          {condition}
-                        </Chip>
-                      </>
-                    ))}
-                  </div>
-                  .
-                </div>
-              )}
-            </>
-          )}
+          {errorComponent ||
+            (calculus ? (
+              <CalculusResultsDisplay
+                form={form}
+                loadingState={loadingState}
+                updateForm={updateForm}
+                variables={variables}
+              />
+            ) : (
+              <TenvexityResultDisplay
+                form={form}
+                loadingState={loadingState}
+                updateForm={updateForm}
+                variables={variables}
+              />
+            ))}
         </div>
         {calculus ? (
           <TransposedVariableTable

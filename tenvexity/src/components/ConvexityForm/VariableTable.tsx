@@ -9,22 +9,20 @@ import {
   TableHeader,
   TableRow,
 } from '@heroui/react';
-import type { UseFormReturnType } from '@mantine/form';
 import type { FormState, LoadingState, VarConf } from './ConvexityForm';
 import VarConfTags from './VarConfTags';
+import type { UseFormReturnType } from '@mantine/form';
 
 export default function VariableTable({
   form,
   loadingState,
-  updateVariable,
   variables,
-  single,
+  updateVariable,
 }: {
   form: UseFormReturnType<FormState>;
   loadingState: LoadingState;
+  variables: VarConf[];
   updateVariable: (key: number, newVar: VarConf) => void;
-  variables: FormState['variables'];
-  single?: boolean;
 }) {
   return (
     <Table
@@ -172,7 +170,6 @@ export default function VariableTable({
                   updateVariable={updateVariable}
                   variableKey={variable}
                   varConf={varConf}
-                  calculus={false}
                 />
               )}
             </TableCell>
