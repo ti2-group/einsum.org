@@ -1,6 +1,6 @@
-import { Button, Tooltip } from "@heroui/react";
-import React from "react";
-import type { VarConf } from "./ConvexityForm";
+import { Button, Tooltip } from '@heroui/react';
+import React from 'react';
+import type { VarConf } from './ConvexityForm';
 
 const VarConfTags: React.FC<{
   varConf: VarConf;
@@ -16,7 +16,7 @@ const VarConfTags: React.FC<{
       updateVariable(variableKey, {
         ...varConf,
         tags: varConf.tags.includes(tag)
-          ? varConf.tags.filter((t) => t !== tag)
+          ? varConf.tags.filter(t => t !== tag)
           : [...varConf.tags, tag],
       });
     },
@@ -32,11 +32,11 @@ const VarConfTags: React.FC<{
       <Tooltip content="Diagonal" closeDelay={100} offset={2}>
         <Button
           size="sm"
-          aria-pressed={activeTags.includes("DIA")}
-          isDisabled={varConf.inferredTags.includes("DIA") || isDisabled}
-          color={activeTags.includes("DIA") ? "success" : "default"}
-          variant={activeTags.includes("DIA") ? "solid" : "ghost"}
-          onClick={() => toggleTag("DIA")}
+          aria-pressed={activeTags.includes('DIA')}
+          isDisabled={varConf.inferredTags.includes('DIA') || isDisabled}
+          color={activeTags.includes('DIA') ? 'success' : 'default'}
+          variant={activeTags.includes('DIA') ? 'solid' : 'ghost'}
+          onPress={() => toggleTag('DIA')}
         >
           DIA
         </Button>
@@ -44,11 +44,11 @@ const VarConfTags: React.FC<{
       <Tooltip content="Symmetric" closeDelay={100}>
         <Button
           size="sm"
-          aria-pressed={activeTags.includes("SYM")}
-          isDisabled={varConf.inferredTags.includes("SYM") || isDisabled}
-          color={activeTags.includes("SYM") ? "success" : "default"}
-          variant={activeTags.includes("SYM") ? "solid" : "ghost"}
-          onClick={() => toggleTag("SYM")}
+          aria-pressed={activeTags.includes('SYM')}
+          isDisabled={varConf.inferredTags.includes('SYM') || isDisabled}
+          color={activeTags.includes('SYM') ? 'success' : 'default'}
+          variant={activeTags.includes('SYM') ? 'solid' : 'ghost'}
+          onPress={() => toggleTag('SYM')}
         >
           SYM
         </Button>
@@ -57,11 +57,11 @@ const VarConfTags: React.FC<{
       <Tooltip content="Positive definite" closeDelay={100}>
         <Button
           size="sm"
-          aria-pressed={activeTags.includes("PD")}
-          isDisabled={varConf.inferredTags.includes("PD") || isDisabled}
-          color={activeTags.includes("PD") ? "success" : "default"}
-          variant={activeTags.includes("PD") ? "solid" : "ghost"}
-          onClick={() => toggleTag("PD")}
+          aria-pressed={activeTags.includes('PD')}
+          isDisabled={varConf.inferredTags.includes('PD') || isDisabled}
+          color={activeTags.includes('PD') ? 'success' : 'default'}
+          variant={activeTags.includes('PD') ? 'solid' : 'ghost'}
+          onPress={() => toggleTag('PD')}
         >
           PD
         </Button>
@@ -70,11 +70,11 @@ const VarConfTags: React.FC<{
       <Tooltip content="Positive semi-definite" closeDelay={100}>
         <Button
           size="sm"
-          aria-pressed={activeTags.includes("PSD")}
-          isDisabled={varConf.inferredTags.includes("PSD") || isDisabled}
-          color={activeTags.includes("PSD") ? "success" : "default"}
-          variant={activeTags.includes("PSD") ? "solid" : "ghost"}
-          onClick={() => toggleTag("PSD")}
+          aria-pressed={activeTags.includes('PSD')}
+          isDisabled={varConf.inferredTags.includes('PSD') || isDisabled}
+          color={activeTags.includes('PSD') ? 'success' : 'default'}
+          variant={activeTags.includes('PSD') ? 'solid' : 'ghost'}
+          onPress={() => toggleTag('PSD')}
         >
           PSD
         </Button>
@@ -83,11 +83,11 @@ const VarConfTags: React.FC<{
       <Tooltip content="Negative definite" closeDelay={100}>
         <Button
           size="sm"
-          aria-pressed={activeTags.includes("ND")}
-          isDisabled={varConf.inferredTags.includes("ND") || isDisabled}
-          color={activeTags.includes("ND") ? "success" : "default"}
-          variant={activeTags.includes("ND") ? "solid" : "ghost"}
-          onClick={() => toggleTag("ND")}
+          aria-pressed={activeTags.includes('ND')}
+          isDisabled={varConf.inferredTags.includes('ND') || isDisabled}
+          color={activeTags.includes('ND') ? 'success' : 'default'}
+          variant={activeTags.includes('ND') ? 'solid' : 'ghost'}
+          onPress={() => toggleTag('ND')}
         >
           ND
         </Button>
@@ -96,11 +96,11 @@ const VarConfTags: React.FC<{
       <Tooltip content="Negative semi-definite" closeDelay={100}>
         <Button
           size="sm"
-          aria-pressed={activeTags.includes("NSD")}
-          isDisabled={varConf.inferredTags.includes("NSD") || isDisabled}
-          color={activeTags.includes("NSD") ? "success" : "default"}
-          variant={activeTags.includes("NSD") ? "solid" : "ghost"}
-          onClick={() => toggleTag("NSD")}
+          aria-pressed={activeTags.includes('NSD')}
+          isDisabled={varConf.inferredTags.includes('NSD') || isDisabled}
+          color={activeTags.includes('NSD') ? 'success' : 'default'}
+          variant={activeTags.includes('NSD') ? 'solid' : 'ghost'}
+          onPress={() => toggleTag('NSD')}
         >
           NSD
         </Button>

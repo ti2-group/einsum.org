@@ -1,6 +1,6 @@
 import type { FormState } from './ConvexityForm';
 import { HighlightedCode } from './HighlightedCode';
-import { Card, CardBody } from "@heroui/react";
+import { Card, CardBody } from '@heroui/react';
 
 export function Example({
   title,
@@ -17,7 +17,7 @@ export function Example({
       className="p-2"
       shadow="sm"
       radius="sm"
-      onClick={() => {
+      onPress={() => {
         const newValues = {
           ...values,
           expression: values.expression.replace(/\n/g, ''),
