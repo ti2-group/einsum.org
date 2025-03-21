@@ -2,28 +2,13 @@ import { useForm } from '@mantine/form';
 import { Fragment, useState } from 'react';
 import { z } from 'zod';
 
+import { Chip, CircularProgress, Select, SelectItem, Skeleton } from '@heroui/react';
 import isDeepEqual from 'fast-deep-equal/react';
 import { Example } from './Example';
 import { examples } from './examples';
 import { HighlightedCode } from './HighlightedCode';
-import {
-  Chip,
-  CircularProgress,
-  Skeleton,
-  Select,
-  SelectItem,
-  Table,
-  TableHeader,
-  TableBody,
-  TableColumn,
-  TableRow,
-  TableCell,
-  Button,
-  Input,
-  Card,
-  NumberInput,
-} from '@heroui/react';
-import VarConfTags from './VarConfTags';
+import TransposedVariableTable from './TransposedVariableTable';
+import VariableTable from './VariableTable';
 
 let controller: AbortController;
 let signal: AbortSignal;
@@ -105,7 +90,7 @@ const formValuesSchema = z.object({
   ),
 });
 
-export function ConvexityForm() {
+export function ConvexityForm({ calculus }: { calculus: boolean }) {
   const [loadingState, setLoadingState] = useState<LoadingState>(null);
   const form = useForm<FormState>({
     initialValues: examples[0].values,
@@ -157,6 +142,7 @@ export function ConvexityForm() {
           .then(res => res.json())
           .then(result => {
             if (result.success) {
+              console.log('result', result);
               form.setValues(val => {
                 const newVariables = result.variables.map((variable: VarConf) => {
                   const oldVar = val?.variables?.find(ovar => ovar.name === variable.name);
@@ -168,6 +154,7 @@ export function ConvexityForm() {
                 return { ...result, variables: newVariables };
               });
             } else {
+              console.log('error', result);
               form.setFieldError('expression', <FormError message={result.errorMessage} />);
             }
             setLoadingState(null);
@@ -175,15 +162,15 @@ export function ConvexityForm() {
           .catch(err => {
             if (!(err instanceof DOMException) && err.message !== undefined) {
               form.setFieldError('expression', <FormError message="Server Error" />);
-              setLoadingState(null);
             }
+            setLoadingState(null);
           });
       } else {
         const errors: Record<string, string> = {};
         parsingResult.error.errors.forEach(error => {
           errors[error.path.join('.')] = error.message;
         });
-
+        console.log('errors', errors);
         form.setErrors(errors);
         setLoadingState(null);
       }
@@ -208,7 +195,7 @@ export function ConvexityForm() {
     }
   }
 
-  console.log(loadingState);
+  console.log('Loading state', loadingState);
 
   return (
     <div className="not-content">
@@ -236,9 +223,6 @@ export function ConvexityForm() {
             });
             // setLoadingState('all');
             // form.setFieldValue('expression');
-          }}
-          onSelect={event => {
-            console.log(event.currentTarget.selectionStart);
           }}
           spellCheck={false}
           style={{
@@ -349,7 +333,6 @@ export function ConvexityForm() {
                     if (loadingState === null && val !== null) {
                       // setLoadingState('solution');
                       // form.setFieldValue('wrt', val);
-                      console.log(val.toString, val);
                       updateForm({ ...form.values, wrt: val });
                     }
                   }}
@@ -402,161 +385,22 @@ export function ConvexityForm() {
             </>
           )}
         </div>
-
-        <Card shadow="sm" className="mt-8" radius="sm">
-          {/* <Table.ScrollContainer minWidth={850}> */}
-          <Table disabledKeys={Array.isArray(loadingState) ? loadingState : []} radius="sm">
-            <TableHeader style={{ textAlign: 'center' }}>
-              <TableColumn className="w-1">Variable</TableColumn>
-              <TableColumn style={{ width: '90px' }}>Order</TableColumn>
-              <TableColumn style={{ minWidth: '250px' }} className="w-80">
-                Interval
-              </TableColumn>
-              <TableColumn style={{ minWidth: '220px' }}>Properties</TableColumn>
-            </TableHeader>
-            <TableBody style={{ textAlign: 'center' }}>
-              {form.values.variables.map((varConf, variable) => (
-                <TableRow key={varConf.name}>
-                  <TableCell className="text-center">
-                    <h4>{varConf.name}</h4>
-                  </TableCell>
-                  <TableCell>
-                    <NumberInput
-                      size="sm"
-                      minValue={0}
-                      value={varConf.order}
-                      required
-                      aria-label="Order"
-                      className="w-16"
-                      hideStepper
-                      classNames={{
-                        inputWrapper: 'h-4',
-                      }}
-                      isDisabled={loadingState?.includes(varConf.name)}
-                      onValueChange={value => {
-                        updateVariable(variable, {
-                          ...varConf,
-                          order: value,
-                        });
-                      }}
-                      errorMessage={!!form.errors[`variables.${variable}.interval.upper`]}
-                    ></NumberInput>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex gap-1">
-                      <Button
-                        variant="faded"
-                        size="sm"
-                        color="default"
-                        isDisabled={loadingState?.includes(varConf.name)}
-                        className="pl-0 pr-0 min-w-8 rounded-md rounded-r-none"
-                        onClick={() => {
-                          updateVariable(variable, {
-                            ...varConf,
-                            interval: {
-                              ...varConf.interval,
-                              lowerIncluded: !varConf.interval.lowerIncluded,
-                            },
-                          });
-                        }}
-                        disabled={loadingState === 'all'}
-                      >
-                        {varConf.interval.lowerIncluded ? '[' : '('}
-                      </Button>
-                      <Input
-                        aria-label="Lower bound"
-                        value={varConf.interval.lower}
-                        size="sm"
-                        isDisabled={loadingState?.includes(varConf.name)}
-                        placeholder="-Inf"
-                        classNames={{
-                          inputWrapper: 'rounded-none',
-                        }}
-                        onChange={event => {
-                          updateVariable(variable, {
-                            ...varConf,
-                            interval: {
-                              ...varConf.interval,
-                              lower: event.target.value,
-                            },
-                          });
-                        }}
-                        errorMessage={!!form.errors[`variables.${variable}.interval.lower`]}
-                        disabled={loadingState === 'all'}
-                      />
-                      <Input
-                        aria-label="Upper bound"
-                        size="sm"
-                        placeholder="Inf"
-                        value={varConf.interval.upper}
-                        isDisabled={loadingState?.includes(varConf.name)}
-                        classNames={{
-                          inputWrapper: 'rounded-none',
-                        }}
-                        onChange={event => {
-                          form.setFieldValue(
-                            `variables.${variable}.interval.upper`,
-                            event.target.value,
-                          );
-                          updateVariable(variable, {
-                            ...varConf,
-                            interval: {
-                              ...varConf.interval,
-                              upper: event.target.value,
-                            },
-                          });
-                        }}
-                        errorMessage={!!form.errors[`variables.${variable}.interval.upper`]}
-                        disabled={loadingState === 'all'}
-                      />
-
-                      <Button
-                        variant="faded"
-                        color="default"
-                        size="sm"
-                        isDisabled={loadingState?.includes(varConf.name)}
-                        className="pl-0 pr-0 min-w-8 rounded-md rounded-l-none "
-                        onClick={() => {
-                          updateVariable(variable, {
-                            ...varConf,
-                            interval: {
-                              ...varConf.interval,
-                              upperIncluded: !varConf.interval.upperIncluded,
-                            },
-                          });
-                        }}
-                        disabled={loadingState === 'all'}
-                      >
-                        {varConf.interval.upperIncluded ? ']' : ')'}
-                      </Button>
-                    </div>
-                    {!!form.errors[`variables.${variable}.interval.lower`] && (
-                      <span className="text-red-600">
-                        {form.errors[`variables.${variable}.interval.lower`]}
-                      </span>
-                    )}
-                    {!!form.errors[`variables.${variable}.interval.upper`] && (
-                      <span className="text-red-600">
-                        {form.errors[`variables.${variable}.interval.upper`]}
-                      </span>
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    {varConf.order % 2 === 0 && (
-                      <VarConfTags
-                        isDisabled={loadingState?.includes(varConf.name) || false}
-                        updateVariable={updateVariable}
-                        variableKey={variable}
-                        varConf={varConf}
-                      />
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          {/* </Table.ScrollContainer> */}
-        </Card>
+        {calculus ? (
+          <TransposedVariableTable
+            form={form}
+            loadingState={loadingState}
+            updateVariable={updateVariable}
+            variables={form.values.variables}
+          />
+        ) : (
+          <VariableTable
+            form={form}
+            loadingState={loadingState}
+            updateVariable={updateVariable}
+            calculus={calculus}
+            variables={form.values.variables}
+          />
+        )}
       </Skeleton>
 
       <div className="place-content-center text-center">
