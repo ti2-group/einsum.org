@@ -55,7 +55,7 @@ export default function App() {
             ))}
           </div>
 
-          <div className="mt-10 text-center">
+          {/* <div className="mt-10 text-center">
             <Button
               color="primary"
               variant="flat"
@@ -67,7 +67,7 @@ export default function App() {
             >
               View All Publications
             </Button>
-          </div>
+          </div> */}
         </section>
       </HeroUIProvider>
     </React.StrictMode>
