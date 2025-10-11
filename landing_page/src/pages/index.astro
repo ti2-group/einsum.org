@@ -1,0 +1,30 @@
+---
+import App from '../components/App.tsx';
+import { Footer } from '../components/footer';
+import { Hero } from '../components/hero';
+import { ThemeSwitcher } from '../components/theme-switcher';
+import '../styles.css';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Einsum</title>
+  </head>
+  <body class="h-full min-h-screen">
+    <div class="min-h-screen bg-background text-foreground">
+      <div class="absolute top-4 right-4 z-10">
+        <ThemeSwitcher client:only />
+      </div>
+
+      <main>
+        <Hero client:load />
+        <App client:load />
+      </main>
+      <Footer client:idle />
+    </div>
+  </body>
+</html>
