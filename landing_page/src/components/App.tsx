@@ -51,6 +51,7 @@ export default function App() {
                 year={paper.year}
                 url={paper.url}
                 abstract={paper.abstract}
+                bibtex={paper.bibtex}
               />
             ))}
           </div>
