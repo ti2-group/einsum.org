@@ -68,8 +68,7 @@ export const Footer = () => {
 
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-foreground-400 text-sm">
-            © {new Date().getFullYear()} Theoretical Computer Science II Research Group at
-            University of Jena. All rights reserved.
+            © {new Date().getFullYear()} Computer Science University of Jena. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm">
             {/* <Link href="/privacy" color="foreground" underline="hover">
