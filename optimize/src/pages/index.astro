@@ -1,0 +1,43 @@
+---
+import App from '../components/App.tsx';
+import { ThemeSwitcher } from '../components/theme-switcher';
+import '../styles.css';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tensor Optimization</title>
+  </head>
+  <body class="h-full min-h-screen">
+    <div class="min-h-screen bg-background text-foreground">
+      <div class="absolute top-4 right-4 z-10">
+        <ThemeSwitcher client:only />
+      </div>
+      <section class="py-6 md:py-10 px-4 md:px-8 bg-gradient-to-br from-background to-content2">
+        <div class="max-w-5xl mx-auto">
+          <div class="space-y-3 text-center">
+            <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight">
+              <span class="text-primary"
+                >A Tensor-Language Interface for Constrained Optimization</span
+              >
+            </h1>
+            <p class="text-foreground-500 text-sm md:text-base max-w-2xl mx-auto">
+              A declarative optimization framework that natively supports hard constraints as well
+              as tensors of arbitrary order. By combining a syntax close to textbook notation with
+              automatic solver generation, the proposed solution enables flexible and rapid
+              prototyping for constrained tensor optimization problems.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <main>
+        <App client:load />
+      </main>
+    </div>
+  </body>
+</html>
