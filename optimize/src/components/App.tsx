@@ -1,52 +1,122 @@
-import { StrictMode, useState } from 'react';
-// import "@mantine/core/styles.css";
-// import { theme } from './theme';
+import { StrictMode, useCallback, useState } from 'react';
 
-import { ConvexityForm } from './ConvexityForm/ConvexityForm';
-import { Button, Card, HeroUIProvider, Textarea, ToastProvider } from '@heroui/react';
-import { HighlightedCode } from './ConvexityForm/HighlightedCode';
+import {
+  addToast,
+  Button,
+  ButtonGroup,
+  Card,
+  Form,
+  HeroUIProvider,
+  Textarea,
+  ToastProvider,
+} from '@heroui/react';
+import { Icon } from '@iconify/react';
 import { Example } from './ConvexityForm/Example';
 import { examples } from './ConvexityForm/examples';
+import { HighlightedCode } from './ConvexityForm/HighlightedCode';
+import { set } from 'astro:schema';
 
 export default function App() {
   const [problem, setProblem] = useState('Sample problem');
+  const [code, setCode] = useState('');
+
+  const handleDownload = useCallback(() => {
+    const blob = new Blob([code], { type: 'text/plain' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'optimizer.py';
+    link.click();
+  }, [code]);
+
+  const getGeneratedCode = useCallback(async (problem: string) => {
+    setCode(`# Generated code for problem:\n${problem}`);
+  }, []);
+
+  const updateExample = useCallback(
+    (exampleCode: string) => {
+      setProblem(exampleCode);
+      getGeneratedCode(exampleCode);
+    },
+    [getGeneratedCode, setProblem],
+  );
+
+  const handleCopy = useCallback(() => {
+    navigator.clipboard.writeText(code).then(() => {
+      addToast({ description: 'Code copied to clipboard', color: 'success' });
+    });
+  }, [code]);
+
   const error = null;
+  const onSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    getGeneratedCode(problem);
+  };
   return (
     <StrictMode>
       <HeroUIProvider disableRipple>
         <ToastProvider />
-        <div className="max-w-4xl mx-auto p-8 space-y-8">
-          <h2 className="text-3xl font-bold text-center">Generate optimization code</h2>
+        <div className="max-w-4xl mx-auto p-4 mt-8 space-y-8 text-center">
+          <h2 id="problem-heading" className="text-3xl font-bold mb-4 ">
+            Generate optimization code
+          </h2>
+          <span>
+            Check out our{' '}
+            <Button as="a" href="/language">
+              Input Language
+            </Button>{' '}
+          </span>
         </div>
-        <Textarea
-          label="Problem description"
-          className="max-w-4xl mx-auto p-4 space-y-8"
-          variant="bordered"
-          value={problem}
-          onChange={e => setProblem(e.target.value)}
-        />
-        <div className="flex justify-center">
-          <Button className="mb-8" onPress={() => alert('Generate code')} color="primary">
-            Generate Code
-          </Button>
-        </div>
+        <Form onSubmit={onSubmit} className="items-center">
+          <Textarea
+            label="Problem description"
+            className="max-w-4xl mx-auto p-4 space-y-4"
+            variant="bordered"
+            value={problem}
+            onChange={e => setProblem(e.target.value)}
+          />
+          <div className="flex justify-center">
+            <Button className="mb-8" type="submit" color="primary">
+              Generate Code
+            </Button>
+          </div>
+        </Form>
         {error && (
           <div className="max-w-4xl mx-auto p-4 mb-8 text-red-600 font-semibold">{error}</div>
         )}
-        <div className="max-w-4xl mx-auto  space-y-8">
-          <h2 className="text-2xl font-bold text-center mb-4">Generated Code</h2>
+        {code !== '' && (
+          <div className="max-w-4xl mx-auto p-4 space-y-4">
+            {/* <h2 className="text-2xl font-bold text-center mb-4">Generated Code</h2> */}
 
-          <Card shadow="sm" radius="sm" className="p-4">
-            <HighlightedCode expression={`# Generated code for problem:\n${problem}`} buttons />
-          </Card>
-        </div>
+            <Card shadow="sm" radius="sm" className="p-4">
+              <div className="absolute top-4 right-10">
+                <Button
+                  onPress={handleDownload}
+                  className="z-100 rounded-r-none"
+                  startContent={<Icon icon="lucide:download" />}
+                  isIconOnly
+                  size="sm"
+                  color="default"
+                ></Button>
+                <Button
+                  onPress={handleCopy}
+                  className="z-100 rounded-l-none"
+                  startContent={<Icon icon="lucide:copy" />}
+                  isIconOnly
+                  size="sm"
+                  color="default"
+                ></Button>
+              </div>
+              <HighlightedCode expression={code} />
+            </Card>
+          </div>
+        )}
         <div className="place-content-center text-center">
-          <h2 className="mt-2 mb-3">Examples</h2>
+          <h2 className="mt-2 mb-3 text-lg">Examples</h2>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 p-4">
           {examples.map(example => (
             <Example
-              setProblem={setProblem}
+              setProblem={updateExample}
               title={example.title}
               value={example.value}
               key={example.title}

@@ -18,7 +18,7 @@ export function Example({
       radius="sm"
       onPress={() => {
         setProblem(value);
-        window.scrollTo(0, 0);
+        document.getElementById('problem-heading')?.scrollIntoView({ behavior: 'smooth' });
       }}
     >
       <CardBody className="text-center">
