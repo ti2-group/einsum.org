@@ -18,11 +18,6 @@ export default defineConfig({
         // '/api': 'http://127.0.0.1:5000',
         '/api': {
           target: 'http://127.0.0.1:5000',
-          bypass: (req, res) => {
-            res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify({ success: true, code: 'implementation in progress' }));
-            return false;
-          },
         },
       },
     },

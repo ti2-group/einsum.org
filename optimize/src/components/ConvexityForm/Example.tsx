@@ -21,11 +21,13 @@ export function Example({
         document.getElementById('problem-heading')?.scrollIntoView({ behavior: 'smooth' });
       }}
     >
-      <CardBody className="text-center">
-        <div className="text-center mb-1">
-          <h3>{title}</h3>
+      <CardBody className="">
+        <div className=" mb-1">
+          <h3 className="text-primary text-lg font-semibold">{title}</h3>
         </div>
-        <HighlightedCode expression={value} />
+        <div className="relative overflow-x-auto max-h-[350px] overflow-y-auto">
+          <pre>{value}</pre>
+        </div>
       </CardBody>
     </Card>
   );

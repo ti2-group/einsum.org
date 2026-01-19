@@ -27,7 +27,7 @@ const inputLang: LanguageFn = () => ({
           contains: [
             {
               scope: 'variable',
-              match: /\w/,
+              match: /[\w\d/]/,
             },
           ],
         },
@@ -36,7 +36,7 @@ const inputLang: LanguageFn = () => ({
     },
     {
       scope: 'built_in',
-      begin: /(log|exp|det)\(/,
+      begin: /(parameters|variables|min|max|log|exp|det)\(/,
       end: /\)/,
       contains: [
         {
@@ -47,6 +47,7 @@ const inputLang: LanguageFn = () => ({
       ],
     },
     { scope: 'variable', match: /[A-Z]/ },
+    { scope: 'comment', begin: /\\/, end: /$/ },
   ],
 });
 

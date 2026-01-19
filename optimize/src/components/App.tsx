@@ -7,6 +7,7 @@ import {
   Card,
   Form,
   HeroUIProvider,
+  input,
   Textarea,
   ToastProvider,
 } from '@heroui/react';
@@ -18,6 +19,8 @@ import { set } from 'astro:schema';
 
 export default function App() {
   const [problem, setProblem] = useState('Sample problem');
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const [code, setCode] = useState('');
 
   const handleDownload = useCallback(() => {
@@ -29,7 +32,34 @@ export default function App() {
   }, [code]);
 
   const getGeneratedCode = useCallback(async (problem: string) => {
-    setCode(`# Generated code for problem:\n${problem}`);
+    setLoading(true);
+    setError(null);
+    setCode('');
+    fetch('/api/', {
+      method: 'POST',
+      body: JSON.stringify({ input: problem }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(res => res.json())
+      .then(result => {
+        if (result.success && result.code) {
+          setCode(result.code);
+        } else if (result.message) {
+          setCode('');
+          setError(result.message);
+        } else {
+          setCode('');
+        }
+      })
+      .catch(err => {
+        setError('An error occurred while generating the code.');
+        setCode('');
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   const updateExample = useCallback(
@@ -46,7 +76,6 @@ export default function App() {
     });
   }, [code]);
 
-  const error = null;
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     getGeneratedCode(problem);
@@ -80,6 +109,9 @@ export default function App() {
             </Button>
           </div>
         </Form>
+        {loading && (
+          <div className="max-w-4xl mx-auto p-4 mb-8 text-center font-semibold">Generating...</div>
+        )}
         {error && (
           <div className="max-w-4xl mx-auto p-4 mb-8 text-red-600 font-semibold">{error}</div>
         )}
@@ -113,7 +145,7 @@ export default function App() {
         <div className="place-content-center text-center">
           <h2 className="mt-2 mb-3 text-lg">Examples</h2>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 p-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-3 p-4 text-left">
           {examples.map(example => (
             <Example
               setProblem={updateExample}
