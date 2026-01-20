@@ -1,5 +1,3 @@
-import { Agent } from 'node:https';
-
 export async function onRequest({ request }) {
   /**
    * An object with different URLs to fetch
@@ -11,11 +9,8 @@ export async function onRequest({ request }) {
 
   const url = new URL(request.url);
   url.protocol = 'https:';
-  url.hostname = `${subdomain}_api.ti2.fmi.uni-jena.de`;
-
-  const httpsAgent = new Agent({
-    rejectUnauthorized: false,
-  }); // Test
+  // url.hostname = `${subdomain}_api.ti2.fmi.uni-jena.de`;
+  url.hostname = `teal.einsum.org`;
 
   // Create a new request based on the original one
   const init = {
@@ -24,19 +19,8 @@ export async function onRequest({ request }) {
     method: request.method,
   };
 
-  const response = await fetch(url.toString(), {
-    ...init,
-    agent: httpsAgent,
-  });
+  const newRequest = new Request(url, init);
 
-  return new Response(response.body, {
-    status: response.status,
-    statusText: response.statusText,
-    headers: response.headers,
-  });
-
-  // const newRequest = new Request(url, init);
-
-  // // If it is, proxy request to that third party origin
-  // return fetch(newRequest);
+  // If it is, proxy request to that third party origin
+  return fetch(newRequest);
 }
