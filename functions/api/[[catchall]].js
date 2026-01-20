@@ -1,4 +1,4 @@
-export function onRequest({ request }) {
+export async function onRequest({ request }) {
   /**
    * An object with different URLs to fetch
    * @param {Object} ORIGINS
