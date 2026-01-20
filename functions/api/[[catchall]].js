@@ -10,7 +10,7 @@ export async function onRequest({ request }) {
   const url = new URL(request.url);
   url.protocol = 'https:';
   // url.hostname = `${subdomain}_api.ti2.fmi.uni-jena.de`;
-  url.hostname = `teal.einsum.org`;
+  url.hostname = `tealapi.einsum.org`;
 
   // Create a new request based on the original one
   const init = {
