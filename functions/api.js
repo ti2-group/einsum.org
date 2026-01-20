@@ -8,7 +8,7 @@ export function onRequest({ request }) {
   console.log(subdomain);
 
   const url = new URL(request.url);
-  url.protocol = 'http:';
+  url.protocol = 'https:';
   url.hostname = `${subdomain}.api.ti2.fmi.uni-jena.de`;
 
   // Create a new request based on the original one
