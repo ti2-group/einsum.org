@@ -1,6 +1,5 @@
 // import { HighlightedCode } from './HighlightedCode';
 import { Card, CardBody } from '@heroui/react';
-import { HighlightedCode } from './HighlightedCode';
 import { CodeEditor } from './CodeEditor';
 
 export function Example({

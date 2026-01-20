@@ -14,10 +14,7 @@ import {
 import { Icon } from '@iconify/react';
 import { Example } from './Example';
 import { examples } from './examples';
-import { HighlightedCode } from './HighlightedCode';
 import { CodeEditor } from './CodeEditor';
-import { set } from 'astro:schema';
-import { C } from '../../dist/_astro/preload-helper.FU8IJrYE';
 
 export default function App() {
   const [problem, setProblem] = useState(examples[0].value);
@@ -86,18 +83,12 @@ export default function App() {
     <StrictMode>
       <HeroUIProvider disableRipple>
         <ToastProvider />
-        <div className="max-w-4xl mx-auto p-4 mt-8 space-y-8 text-center">
-          <h2 id="problem-heading" className="text-3xl font-bold mb-4 ">
+        {/* <div className="max-w-4xl mx-auto mt-2 text-center">
+          <h2 id="problem-heading" className="text-xl font-bold  ">
             Generate optimization code
           </h2>
-          <span>
-            Check out our{' '}
-            <Button as="a" href="/language">
-              Input Language
-            </Button>{' '}
-          </span>
-        </div>
-        <div className="max-w-4xl mx-auto p-4 space-y-4 flex-wrap">
+        </div> */}
+        <div className="max-w-4xl mt-4 mx-auto p-4 space-y-4 flex-wrap">
           <label className="block text-sm font-medium mb-2">Problem description</label>
           <CodeEditor value={problem} onChange={setProblem} maxHeight="300px" />
         </div>
@@ -115,35 +106,36 @@ export default function App() {
           <div className="max-w-4xl mx-auto p-4 mb-8 text-red-600 font-semibold">{error}</div>
         )}
         {code !== '' && (
-          <div className="max-w-4xl mx-auto space-y-4">
+          <div className="max-w-4xl mx-auto space-y-4 relative p-4">
             {/* <h2 className="text-2xl font-bold text-center mb-4">Generated Code</h2> */}
 
-            <Card shadow="none" radius="sm" className="p-4">
-              <div className="absolute top-13 right-6">
-                <Button
-                  onPress={handleDownload}
-                  className="z-100 rounded-r-none"
-                  startContent={<Icon icon="lucide:download" />}
-                  isIconOnly
-                  size="sm"
-                  color="default"
-                ></Button>
-                <Button
-                  onPress={handleCopy}
-                  className="z-100 rounded-l-none"
-                  startContent={<Icon icon="lucide:copy" />}
-                  isIconOnly
-                  size="sm"
-                  color="default"
-                ></Button>
-              </div>
-              <label className="block text-sm font-medium mb-2">Generated Code</label>
-              <CodeEditor value={code} readOnly={true} language="python" maxHeight="300px" />
-            </Card>
+            {/* <Card shadow="none" radius="sm" className="p-4"> */}
+
+            <div className="absolute top-13 right-6">
+              <Button
+                onPress={handleDownload}
+                className="z-100 rounded-r-none"
+                startContent={<Icon icon="lucide:download" />}
+                isIconOnly
+                size="sm"
+                color="default"
+              ></Button>
+              <Button
+                onPress={handleCopy}
+                className="z-100 rounded-l-none"
+                startContent={<Icon icon="lucide:copy" />}
+                isIconOnly
+                size="sm"
+                color="default"
+              ></Button>
+            </div>
+            <label className="block text-sm font-medium mb-2">Generated Code</label>
+            <CodeEditor value={code} readOnly={true} language="python" maxHeight="300px" />
+            {/* </Card> */}
           </div>
         )}
         <div className="place-content-center text-center">
-          <h2 className="mt-2 mb-3 text-2xl">Examples</h2>
+          <h2 className="mt-6 mb-1 text-2xl">Examples</h2>
         </div>
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-3 p-4 text-left">
           {examples.map(example => (

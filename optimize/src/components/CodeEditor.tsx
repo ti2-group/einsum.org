@@ -2,6 +2,8 @@ import CodeMirror from '@uiw/react-codemirror';
 import { EditorView, WidgetType } from '@codemirror/view';
 import { LanguageSupport, StreamLanguage } from '@codemirror/language';
 import { python } from '@codemirror/lang-python';
+import { useTheme } from '@heroui/use-theme';
+import { useEffect, useState } from 'react';
 
 // Simple CodeMirror language definition for optimization language
 const optimizationLanguage = StreamLanguage.define({
@@ -86,6 +88,27 @@ export function CodeEditor({
   height,
   maxHeight,
 }: CodeEditorProps) {
+  const { theme: defaultTheme } = useTheme();
+  if (defaultTheme !== 'light' && defaultTheme !== 'dark') {
+    return null;
+  }
+  const [theme, setTheme] = useState<'light' | 'dark'>(defaultTheme);
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      const isDark = document.documentElement.classList.contains('dark');
+      setTheme(isDark ? 'dark' : 'light');
+    });
+
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+    // Set initial theme
+    const isDark = document.documentElement.classList.contains('dark');
+    setTheme(isDark ? 'dark' : 'light');
+
+    return () => observer.disconnect();
+  }, []);
+  console.log(theme);
   return (
     <div className={className}>
       <CodeMirror
@@ -103,6 +126,7 @@ export function CodeEditor({
         }}
         maxHeight={maxHeight}
         height={height}
+        theme={theme}
         width={'1000px'}
         style={{
           //   fontSize: '14px',
