@@ -1,3 +1,5 @@
+import { Agent } from 'node:https';
+
 export async function onRequest({ request }) {
   /**
    * An object with different URLs to fetch
@@ -11,7 +13,7 @@ export async function onRequest({ request }) {
   url.protocol = 'https:';
   url.hostname = `${subdomain}_api.ti2.fmi.uni-jena.de`;
 
-  const httpsAgent = new https.Agent({
+  const httpsAgent = new Agent({
     rejectUnauthorized: false,
   });
 
