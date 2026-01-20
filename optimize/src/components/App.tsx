@@ -89,7 +89,9 @@ export default function App() {
           </h2>
         </div> */}
         <div className="max-w-4xl mt-4 mx-auto p-4 space-y-4 flex-wrap">
-          <label className="block text-sm font-medium mb-2">Problem description</label>
+          <label id="problem-heading" className="block text-sm font-medium mb-2">
+            Problem description
+          </label>
           <CodeEditor value={problem} onChange={setProblem} maxHeight="300px" />
         </div>
         <Form onSubmit={onSubmit} className="items-center">
