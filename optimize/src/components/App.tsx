@@ -34,7 +34,7 @@ export default function App() {
     setLoading(true);
     setError(null);
     setCode('');
-    fetch('/api/optimize', {
+    fetch('/api/optimize/', {
       method: 'POST',
       body: JSON.stringify({ input: problem }),
       headers: {
