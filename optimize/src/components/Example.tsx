@@ -1,5 +1,7 @@
-import { HighlightedCode } from './HighlightedCode';
+// import { HighlightedCode } from './HighlightedCode';
 import { Card, CardBody } from '@heroui/react';
+import { HighlightedCode } from './HighlightedCode';
+import { CodeEditor } from './CodeEditor';
 
 export function Example({
   title,
@@ -13,7 +15,6 @@ export function Example({
   return (
     <Card
       isPressable
-      className="p-2"
       shadow="sm"
       radius="sm"
       onPress={() => {
@@ -25,9 +26,7 @@ export function Example({
         <div className=" mb-1">
           <h3 className="text-primary text-lg font-semibold">{title}</h3>
         </div>
-        <div className="relative overflow-x-auto max-h-[350px] overflow-y-auto">
-          <pre>{value}</pre>
-        </div>
+        <CodeEditor value={value} readOnly={true} />
       </CardBody>
     </Card>
   );

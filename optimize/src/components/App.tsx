@@ -12,13 +12,15 @@ import {
   ToastProvider,
 } from '@heroui/react';
 import { Icon } from '@iconify/react';
-import { Example } from './ConvexityForm/Example';
-import { examples } from './ConvexityForm/examples';
-import { HighlightedCode } from './ConvexityForm/HighlightedCode';
+import { Example } from './Example';
+import { examples } from './examples';
+import { HighlightedCode } from './HighlightedCode';
+import { CodeEditor } from './CodeEditor';
 import { set } from 'astro:schema';
+import { C } from '../../dist/_astro/preload-helper.FU8IJrYE';
 
 export default function App() {
-  const [problem, setProblem] = useState('Sample problem');
+  const [problem, setProblem] = useState(examples[0].value);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [code, setCode] = useState('');
@@ -35,7 +37,7 @@ export default function App() {
     setLoading(true);
     setError(null);
     setCode('');
-    fetch('/api/', {
+    fetch('/api/optimize', {
       method: 'POST',
       body: JSON.stringify({ input: problem }),
       headers: {
@@ -95,16 +97,13 @@ export default function App() {
             </Button>{' '}
           </span>
         </div>
+        <div className="max-w-4xl mx-auto p-4 space-y-4 flex-wrap">
+          <label className="block text-sm font-medium mb-2">Problem description</label>
+          <CodeEditor value={problem} onChange={setProblem} maxHeight="300px" />
+        </div>
         <Form onSubmit={onSubmit} className="items-center">
-          <Textarea
-            label="Problem description"
-            className="max-w-4xl mx-auto p-4 space-y-4"
-            variant="bordered"
-            value={problem}
-            onChange={e => setProblem(e.target.value)}
-          />
           <div className="flex justify-center">
-            <Button className="mb-8" type="submit" color="primary">
+            <Button className="" type="submit" color="primary">
               Generate Code
             </Button>
           </div>
@@ -116,11 +115,11 @@ export default function App() {
           <div className="max-w-4xl mx-auto p-4 mb-8 text-red-600 font-semibold">{error}</div>
         )}
         {code !== '' && (
-          <div className="max-w-4xl mx-auto p-4 space-y-4">
+          <div className="max-w-4xl mx-auto space-y-4">
             {/* <h2 className="text-2xl font-bold text-center mb-4">Generated Code</h2> */}
 
-            <Card shadow="sm" radius="sm" className="p-4">
-              <div className="absolute top-4 right-10">
+            <Card shadow="none" radius="sm" className="p-4">
+              <div className="absolute top-13 right-6">
                 <Button
                   onPress={handleDownload}
                   className="z-100 rounded-r-none"
@@ -138,14 +137,15 @@ export default function App() {
                   color="default"
                 ></Button>
               </div>
-              <HighlightedCode expression={code} />
+              <label className="block text-sm font-medium mb-2">Generated Code</label>
+              <CodeEditor value={code} readOnly={true} language="python" maxHeight="300px" />
             </Card>
           </div>
         )}
         <div className="place-content-center text-center">
-          <h2 className="mt-2 mb-3 text-lg">Examples</h2>
+          <h2 className="mt-2 mb-3 text-2xl">Examples</h2>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-3 p-4 text-left">
+        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-3 p-4 text-left">
           {examples.map(example => (
             <Example
               setProblem={updateExample}
