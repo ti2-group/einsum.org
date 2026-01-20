@@ -11,6 +11,10 @@ export function onRequest({ request }) {
   url.protocol = 'https:';
   url.hostname = `${subdomain}_api.ti2.fmi.uni-jena.de`;
 
+  const httpsAgent = new https.Agent({
+    rejectUnauthorized: false,
+  });
+
   // Create a new request based on the original one
   const init = {
     body: request.body,
@@ -18,8 +22,19 @@ export function onRequest({ request }) {
     method: request.method,
   };
 
-  const newRequest = new Request(url, init);
+  const response = await fetch(url.toString(), {
+    ...init,
+    agent: httpsAgent,
+  });
 
-  // If it is, proxy request to that third party origin
-  return fetch(newRequest);
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers: response.headers,
+  });
+
+  // const newRequest = new Request(url, init);
+
+  // // If it is, proxy request to that third party origin
+  // return fetch(newRequest);
 }
