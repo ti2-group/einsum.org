@@ -9,7 +9,7 @@ export function onRequest({ request }) {
 
   const url = new URL(request.url);
   url.protocol = 'http:';
-  url.hostname = `${subdomain}.api.einsum.org`;
+  url.hostname = `${subdomain}.api.ti2.fmi.uni-jena.de`;
 
   // Create a new request based on the original one
   const init = {
