@@ -15,7 +15,7 @@ export async function onRequest({ request }) {
 
   const httpsAgent = new Agent({
     rejectUnauthorized: false,
-  });
+  }); // Test
 
   // Create a new request based on the original one
   const init = {
