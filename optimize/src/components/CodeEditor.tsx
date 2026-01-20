@@ -117,6 +117,7 @@ export function CodeEditor({
         extensions={[language === 'python' ? python() : optimizationLang]}
         placeholder={placeholder}
         readOnly={readOnly}
+        editable={!readOnly}
         autoFocus={!readOnly}
         basicSetup={{
           lineNumbers: true,
