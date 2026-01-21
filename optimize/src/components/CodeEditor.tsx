@@ -1,8 +1,8 @@
-import CodeMirror from '@uiw/react-codemirror';
-import { EditorView, WidgetType } from '@codemirror/view';
-import { LanguageSupport, StreamLanguage } from '@codemirror/language';
 import { python } from '@codemirror/lang-python';
+import { LanguageSupport, StreamLanguage } from '@codemirror/language';
 import { useTheme } from '@heroui/use-theme';
+import { vscodeLight } from '@uiw/codemirror-theme-vscode';
+import CodeMirror from '@uiw/react-codemirror';
 import { useEffect, useState } from 'react';
 
 // Simple CodeMirror language definition for optimization language
@@ -108,7 +108,9 @@ export function CodeEditor({
 
     return () => observer.disconnect();
   }, []);
-  console.log(theme);
+
+  const usedTheme = theme === 'dark' ? 'dark' : vscodeLight;
+
   return (
     <div className={className}>
       <CodeMirror
@@ -127,10 +129,10 @@ export function CodeEditor({
         }}
         maxHeight={maxHeight}
         height={height}
-        theme={theme}
+        theme={usedTheme}
         width={'1000px'}
         style={{
-          //   fontSize: '14px',
+          fontSize: '14px',
           border: '2px solid hsl(var(--heroui-default-200))',
           //   borderRadius: '12px',
           //   overflow: 'hidden',
