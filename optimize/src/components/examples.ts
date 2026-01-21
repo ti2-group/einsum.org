@@ -12,11 +12,11 @@ min        // The objective function
   {
     title: 'Tucker decomposition (Robust regression)',
     value: `parameters // Input tensors (training data)
-  T 3     // The tensor we want to decompose
-variables // Variable tensors (model weights)
-  C 3     // The core of the decomposition
+  T 3      // The tensor we want to decompose
+variables  // Variable tensors (model weights)
+  C 3      // The core of the decomposition
   u 2, v 2, w 2 // One matrix for each axis
-min       // The objective function
+min        // The objective function
   sum(|T - #(ijk,ai,bj,ck->abc; C, u, v, w)|)`,
   },
   {
