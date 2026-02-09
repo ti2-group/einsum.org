@@ -21,7 +21,8 @@ export const ServiceCard = ({ title, description, imageUrl, url }: ServiceCardPr
       className="overflow-hidden transition-transform duration-300 hover:scale-[1.02]"
     >
       <CardBody className="p-0">
-        <img src={imageUrl} alt={title} className="w-full h-48 object-contain p-5" />
+        <img src={`${imageUrl}_dark.svg`} alt={title} className="h-35 p-5 hidden dark:block" />
+        <img src={`${imageUrl}_light.svg`} alt={title} className="h-35 p-5 dark:hidden" />
       </CardBody>
       <CardFooter className="flex flex-col items-start text-left p-5">
         <h3 className="text-xl font-semibold mb-2">{title}</h3>
