@@ -10,7 +10,7 @@ export const services = [
   {
     id: 2,
     title: 'Tenvexity',
-    description: 'Convexity certificates for einsum expressions',
+    description: 'Convexity certificates for extended einsum expressions',
     imageUrl: '/Tenvexity',
     url: 'https://tenvexity.einsum.org',
   },
@@ -24,14 +24,14 @@ export const services = [
   {
     id: 4,
     title: 'Optimize',
-    description: 'Generate an optimizer for your extended einsum expression',
+    description: 'Generate optimizers for extended einsum expressions',
     imageUrl: '/Opt',
     url: 'https://optimization.einsum.org',
   },
   {
     id: 5,
     title: 'Derivative',
-    description: 'Compute derivatives of einsum expressions',
+    description: 'Symbolic derivatives of extended einsum expressions',
     imageUrl: '/Diff',
     url: 'https://derivative.einsum.org',
   },
