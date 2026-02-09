@@ -26,7 +26,7 @@ export const services = [
     title: 'Optimize',
     description: 'Generate an optimizer for your extended einsum expression',
     imageUrl: '/Opt',
-    url: 'https://optimize.einsum.org',
+    url: 'https://optimization.einsum.org',
   },
   {
     id: 5,
