@@ -39,7 +39,7 @@ export const services = [
     id: 6,
     title: 'Fast Contraction Paths',
     description: 'Speed up evaluation of large einsum contractions with better contraction paths.',
-    imageUrl: '/Fast',
+    imageUrl: '/Path',
     url: 'https://github.com/ti2-group/hybrid_contraction_tree_optimizer',
   },
 ];
