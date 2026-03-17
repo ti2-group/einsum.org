@@ -20,7 +20,7 @@ Punkte
  - Der 1. Buchstabe ist mit etwa 3 Kreisen markiert (die quasi Tensoren symbolisieren), die auf der Linie liegen.
  - 8px Radius, 2px zusätzlich für die Umrandung, wie auch beim Buchstaben selbst.
  - Position meist an Endpunkten oder Kreuzungspunkten; nicht fest definiert.
- - Offene Endpunkte, wenn überhaupt, vermutlich besser etwas abrunden. (Siehe "F" für "Fast".)
+ - Offene Endpunkte, wenn überhaupt, vermutlich besser etwas abrunden. (Siehe "F" für "Fast"; aktuell nicht verwendet.)
  - In Graphite zeichne ich einfach Hilfslinien (zur Not mit Länge 0) und lasse die Kreise auf deren Endpunkte setzen.
 
 Farben sind im Wesentlichen von den Matplotlib Farbskalen tab20b und tab20c, siehe etwa [hier](https://martin-ueding.de/posts/matplotlib-colors-scales-as-hex-codes/#tab20). (Klick auf Kästchen kopiert den Hex-Code der Farbe.)
@@ -31,7 +31,7 @@ Farben sind im Wesentlichen von den Matplotlib Farbskalen tab20b und tab20c, sie
 | Derivative	| Blau		| #9ecae1 | #3182bd	|
 | Tenvexity		| Grün		| #a1d99b | #31a354	|
 | Optimization	| Magenta	| #ce6dbd | #7b4173	|
-| Fast			| Grau		| #bdbdbd | #636363	|
+| Path			| Grau		| #bdbdbd | #636363	|
 | (Noch frei)	| Ocker?	| #e7ba52 | #8c6d31	|
 
 (*) Diese Farbe ist nicht von der Matplotlib Skala.
@@ -42,4 +42,5 @@ Farben sind im Wesentlichen von den Matplotlib Farbskalen tab20b und tab20c, sie
 	- Wenn ein Service einen kürzeren Namen hat, muss es trotzdem so groß sein, damit alles richtig skaliert. Ein längerer Name ist aktuell nicht vorgesehen.
 	- Das Logo ist horizontal zentriert auf diesem Hintergrund.
 - Einmal für Light-Mode (schwarze Schrift) als "<Service>_light.svg" und einmal für Dark-Mode (weiße Schrift) als "<Service>_dark.svg" exportieren.
-	- Die Farbe vom 1. Buchstaben sollte für beide Modi passen.
+	- Die Farbe vom 1. Buchstaben sollte für beide Modi passen, andernfalls müsste man die auch variieren.
+- Im Websiten Git für einsum.org gibt es aktuell (März 26) alle Logos doppelt. Habe vergessen, welche Variante tatsächlich geladen wird; vermutlich die äußere.
