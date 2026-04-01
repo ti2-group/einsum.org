@@ -1,28 +1,11 @@
 ---
 title: 'Input Language'
-layout: '../layouts/base.astro'
+template: 'splash'
 ---
-## Structure
-The input consists of up to five blocks:
-
-Parameters and variables:
- - These blocks introduce input tensors by name, followed by their order (an integer).
- - Any alphanumeric symbol that begins with a letter is a valid tensor name, unless it is already used as a function name.
- - Multiple specifications on the same line should be separated by a comma.
- - Only variables are subject to the optimization.
-
-Objective function ("min" or "max"):
- - The expression specified after the "min" or "max" keyword is the optimization target.
-
-Common subexpressions ("cse"; optional):
- - Specify a (recurring) expression in the form "{name} = {expression}".
- - In the following, the specified expression will be substituted whenever {name} appears.
- - Multiple expressions may be specified.
-
-Constraints ("st"; optional):
- - Specify one or multiple constraints by combining two expressions with "==" (or "="), "<", ">", "<=" or ">=".
- - Example: $||\text{theta}|| == 1$
-
+## Variables
+Variable names are alphanumeric symbols that begin with a letter.
+If the symbol does not correspond to any known keyword (such as a function name), it is automatically assumed to be a variable.
+The order of variables is inferred automatically wherever possible, defaulting to 2.
 
 ## *Einsum*
 The *einsum* notation expresses tensor aggregations using index strings.
@@ -60,17 +43,17 @@ The following non-elementwise functions from linear algebra are also available:
 
  - $\text{inv}(A)$, $\text{det}(A)$, $\text{adj}(A)$
 
-## Constant symbols
-Constants are fixed (i.e. non-input) tensors. 
-Two kinds of constants are permitted:
-
- - Numbers such as $0$, $1$ and $3.14159$ are interpreted as tensors with that entry in every position. The order is inferred from context.
- - Delta tensors are written as $\text{delta}(o)$, where $o$ is an integer. For example, $\text{delta}(1)$ is the unit matrix.
-
-## Shorthand notations
+## Shorthands
 The following shorthands are internally mapped back to other functions.
 
  - $\text{sum}(A)$ is the sum of all elements in $A$, e.g. $\text{sum}(A) = \#('ij ~\rightarrow~ ', A)$ for a matrix.
  - Similarly, $\text{trace}(A)$ sums over the diagonal of $A$.
- - $A*B$ computes the elementwise product of $A$ and $B$, e.g. $A*B = \#('ij, ij ~\rightarrow~ ij', A, B)$ for matrices. Scalars are also allowed.
+ - $A*B$ computes the elementwise product of $A$ and $B$, e.g. $A*B = \#('ij, ij ~\rightarrow~ ij', A, B)$ for matrices. Scalars are also allowed. 
+ - $A@B$ computes the matrix product $\#('ij, jk ~\rightarrow~ ik', A, B)$ of two matrices $A$ and $B$. In general, it contracts the rightmost axis of $A$ with the leftmost axis of $B$.
+ - $A@@B$ cumputes the full outer product $\#('ij, kl ~\rightarrow~ ijkl', A, B)$ of $A$ and $B$, regardless of their order.
 
+## Assignments
+For convenientce, the main expression may be preceeded by assigments of the form NAME = expression.
+Subsequent expressions may use NAME to reference the assigned expression.
+The final expression must not be part of an assignment.
+Separating assignments with linebreaks is recommended but not required.
