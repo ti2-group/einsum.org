@@ -1,0 +1,45 @@
+---
+import App from '../components/App.tsx';
+import { ThemeSwitcher } from '../components/theme-switcher.tsx';
+import '../styles.css';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Symbolic Tensor Differentiation</title>
+  </head>
+  <body class="h-full min-h-screen">
+    <div class="min-h-screen bg-background text-foreground">
+      <div class="absolute top-4 right-4 z-10">
+        <ThemeSwitcher client:only />
+      </div>
+      <section class="py-6 md:py-10 px-4 md:px-8 bg-gradient-to-br from-background to-content2">
+        <div class="max-w-5xl mx-auto">
+          <div class="space-y-3 text-center mt-4 lg:mt-0">
+            <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight">
+              <span class="text-primary"
+                >A Tensor-Language Interface for symbolic differentiation</span
+              >
+            </h1>
+            <p class="text-foreground-500 text-sm md:text-base max-w-2xl mx-auto">
+              Get the derivative of any extended einsum expression with respect to any of its
+              operands.
+            </p>
+            <span>
+              Check out our{' '}
+              <a href="/language" class="text-primary font-semibold underline"> Input Language </a>
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <main>
+        <App client:only />
+      </main>
+    </div>
+  </body>
+</html>
