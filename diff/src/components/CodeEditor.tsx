@@ -73,6 +73,7 @@ interface CodeEditorProps {
   language?: 'python' | 'optimization';
   placeholder?: string;
   className?: string;
+  lineNumbers?: boolean;
   readOnly?: boolean;
   height?: string;
   maxHeight?: string;
@@ -85,6 +86,7 @@ export function CodeEditor({
   className,
   readOnly,
   language = 'optimization',
+  lineNumbers = false,
   height,
   maxHeight,
 }: CodeEditorProps) {
@@ -122,14 +124,15 @@ export function CodeEditor({
         editable={!readOnly}
         autoFocus={!readOnly}
         basicSetup={{
-          lineNumbers: true,
-          highlightActiveLineGutter: !readOnly,
-          highlightActiveLine: !readOnly,
+          lineNumbers: lineNumbers,
+          highlightActiveLineGutter: false,
+          highlightActiveLine: false,
           foldGutter: false,
         }}
         maxHeight={maxHeight}
         height={height}
         theme={usedTheme}
+        l
         width={'1000px'}
         style={{
           fontSize: '14px',

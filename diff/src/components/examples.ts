@@ -11,8 +11,7 @@ export const examples = [
   },
   {
     title: 'Least squares regression',
-    value: `sum((#('ij,i->j',
- X, w)-y)^2)`,
+    value: `sum((#('ij,i->j',X, w)-y)^2)`,
     wrt: 'w',
   },
   {
@@ -27,26 +26,22 @@ export const examples = [
   },
   {
     title: 'tr(X^T * B * X)',
-    value: `trace(#('ia,ij,jb->ab',
- X, B, X))`,
+    value: `trace(#('ia,ij,jb->ab',X, B, X))`,
     wrt: 'X',
   },
   {
     title: 'UV decomposition',
-    value: `sum((A-#('ij,kj->ik',
- U, V))^2)`,
+    value: `sum((A-#('ij,kj->ik',U, V))^2)`,
     wrt: 'V',
   },
   {
     title: 'Tucker decomposition',
-    value: `sum((X - #('ijk,ia,jb,kc
-->abc', K, A, B, C))^2)`,
+    value: `sum((X - #('ijk,ia,jb,kc->abc', K, A, B, C))^2)`,
     wrt: 'A',
   },
   {
     title: 'Rank 1 decomposition',
-    value: `||(X - #('i,j,k->ijk',
- u, v, w))||^2`,
+    value: `||(X - #('i,j,k->ijk',u, v, w))||^2`,
     wrt: 'u',
   },
   {
@@ -61,8 +56,7 @@ export const examples = [
   },
   {
     title: 'Restricted domain',
-    value: `#('ab,bc,cd,da->',
- X, B, X, B)`,
+    value: `#('ab,bc,cd,da->',X, B, X, B)`,
     wrt: 'X',
   },
   {
@@ -73,7 +67,7 @@ export const examples = [
   {
     title: 'Tensor regression (ring network)',
     value: `theta=#(zax,xby,ycz->abc; th0, th1, th2) 
- sum((#(nabc,abc->n; X, theta)-y)^2)`,
+sum((#(nabc,abc->n; X, theta)-y)^2)`,
     wrt: 'th0',
   },
 ] as { title: string; value: string; wrt: string }[];
