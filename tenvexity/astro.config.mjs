@@ -2,7 +2,6 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import remarkMath from 'remark-math';
 import rehypeMathjax from 'rehype-mathjax';
-import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
 
 // https://astro.build/config
@@ -26,10 +25,6 @@ export default defineConfig({
       editLink: {
         baseUrl: 'https://github.com/ti2-group/einsum.org/edit/main/tenvexity/',
       },
-    }),
-    tailwind({
-      applyBaseStyles: false,
-      configFile: './tenvexity/tailwind.config.mjs',
     }),
     react(),
   ],

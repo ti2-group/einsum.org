@@ -2,8 +2,9 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import remarkMath from 'remark-math';
 import rehypeMathjax from 'rehype-mathjax';
-import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
+
+import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
@@ -41,9 +42,9 @@ export default defineConfig({
         { tag: 'meta', attrs: { name: 'apple-mobile-web-app-title', content: 'Benchmark' } },
         { tag: 'link', attrs: { rel: 'manifest', href: '/favicon/site.webmanifest' } },
       ],
-      social: {
-        github: 'https://github.com/ti2-group/einsum_benchmark',
-      },
+      social: [
+        { icon: 'github', label: 'GitHub', href: 'https://github.com/ti2-group/einsum_benchmark' },
+      ],
       customCss: ['./src/styles.css'],
       components: {
         PageTitle: './src/overrides/PageTitle.astro',
@@ -64,10 +65,6 @@ export default defineConfig({
         { label: 'Team', slug: 'team', attrs: { class: 'sm:hidden' } },
       ],
     }),
-    tailwind({
-      applyBaseStyles: false,
-      configFile: './benchmark/tailwind.config.mjs',
-    }),
     react(),
   ],
   navLinks: [
@@ -87,5 +84,6 @@ export default defineConfig({
         '/api': 'http://127.0.0.1:5000',
       },
     },
+    plugins: [tailwindcss()],
   },
 });

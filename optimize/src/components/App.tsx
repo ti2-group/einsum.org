@@ -1,4 +1,4 @@
-import { StrictMode, useCallback, useState } from 'react';
+import { StrictMode, useCallback, useState } from "react";
 
 import {
   addToast,
@@ -10,51 +10,52 @@ import {
   input,
   Textarea,
   ToastProvider,
-} from '@heroui/react';
-import { Icon } from '@iconify/react';
-import { Example } from './Example';
-import { examples } from './examples';
-import { CodeEditor } from './CodeEditor';
+} from "@heroui/react";
+
+import { Icon } from "@iconify/react";
+import { Example } from "./Example";
+import { examples } from "./examples";
+import { CodeEditor } from "./CodeEditor";
 
 export default function App() {
   const [problem, setProblem] = useState(examples[0].value);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [code, setCode] = useState('');
+  const [code, setCode] = useState("");
 
   const handleDownload = useCallback(() => {
-    const blob = new Blob([code], { type: 'text/plain' });
-    const link = document.createElement('a');
+    const blob = new Blob([code], { type: "text/plain" });
+    const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = 'optimizer.py';
+    link.download = "optimizer.py";
     link.click();
   }, [code]);
 
   const getGeneratedCode = useCallback(async (problem: string) => {
     setLoading(true);
     setError(null);
-    setCode('');
-    fetch('/api/optimize/', {
-      method: 'POST',
+    setCode("");
+    fetch("/api/optimize/", {
+      method: "POST",
       body: JSON.stringify({ input: problem }),
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
-      .then(res => res.json())
-      .then(result => {
+      .then((res) => res.json())
+      .then((result) => {
         if (result.success && result.code) {
           setCode(result.code);
         } else if (result.message) {
-          setCode('');
+          setCode("");
           setError(result.message);
         } else {
-          setCode('');
+          setCode("");
         }
       })
-      .catch(err => {
-        setError('An error occurred while generating the code.');
-        setCode('');
+      .catch((err) => {
+        setError("An error occurred while generating the code.");
+        setCode("");
       })
       .finally(() => {
         setLoading(false);
@@ -69,9 +70,10 @@ export default function App() {
     [getGeneratedCode, setProblem],
   );
 
+  // Create useCallback
   const handleCopy = useCallback(() => {
     navigator.clipboard.writeText(code).then(() => {
-      addToast({ description: 'Code copied to clipboard', color: 'success' });
+      addToast({ description: "Code copied to clipboard", color: "success" });
     });
   }, [code]);
 
@@ -89,7 +91,10 @@ export default function App() {
           </h2>
         </div> */}
         <div className="max-w-4xl mt-4 mx-auto p-4 space-y-4 flex-wrap">
-          <label id="problem-heading" className="block text-sm font-medium mb-2">
+          <label
+            id="problem-heading"
+            className="block text-sm font-medium mb-2"
+          >
             Problem description
           </label>
           <CodeEditor value={problem} onChange={setProblem} maxHeight="300px" />
@@ -102,12 +107,16 @@ export default function App() {
           </div>
         </Form>
         {loading && (
-          <div className="max-w-4xl mx-auto p-4 mb-8 text-center font-semibold">Generating...</div>
+          <div className="max-w-4xl mx-auto p-4 mb-8 text-center font-semibold">
+            Generating...
+          </div>
         )}
         {error && (
-          <div className="max-w-4xl mx-auto p-4 mb-8 text-red-600 font-semibold">{error}</div>
+          <div className="max-w-4xl mx-auto p-4 mb-8 text-red-600 font-semibold">
+            {error}
+          </div>
         )}
-        {code !== '' && (
+        {code !== "" && (
           <div className="max-w-4xl mx-auto space-y-4 relative p-4">
             {/* <h2 className="text-2xl font-bold text-center mb-4">Generated Code</h2> */}
 
@@ -131,8 +140,15 @@ export default function App() {
                 color="default"
               ></Button>
             </div>
-            <label className="block text-sm font-medium mb-2">Generated Code</label>
-            <CodeEditor value={code} readOnly={true} language="python" maxHeight="300px" />
+            <label className="block text-sm font-medium mb-2">
+              Generated Code
+            </label>
+            <CodeEditor
+              value={code}
+              readOnly={true}
+              language="python"
+              maxHeight="300px"
+            />
             {/* </Card> */}
           </div>
         )}
@@ -140,7 +156,7 @@ export default function App() {
           <h2 className="mt-6 mb-1 text-2xl">Examples</h2>
         </div>
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-3 p-4 text-left">
-          {examples.map(example => (
+          {examples.map((example) => (
             <Example
               setProblem={updateExample}
               title={example.title}

@@ -1,11 +1,30 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@layer base, starlight, theme, components, utilities;
 
+@import '@astrojs/starlight-tailwind';
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+@plugin '../../heroui.ts';
+@source '../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
+/* @custom-variant dark (&:is(.dark *)); */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 /*
 Add additional Tailwind styles to this file, for example with @layer:
 https://tailwindcss.com/docs/adding-custom-styles#using-css-and-layer
 */
+
+@theme {
+  --color-accent-50: #dfe4e9;
+  --color-accent-100: #b3bdcb;
+  --color-accent-200: #8697ac;
+  --color-accent-300: #59708d;
+  --color-accent-400: #2d4a6f;
+  --color-accent-500: #002350;
+  --color-accent-600: #001d42;
+  --color-accent-700: #001734;
+  --color-accent-800: #001126;
+  --color-accent-900: #000b18;
+  --color-accent-950: #000b18;
+}
 
 ul[data-slot='listbox'] {
   padding-inline-start: 0;
@@ -106,4 +125,10 @@ header {
 
 .MathJax svg {
   display: inline !important;
+}
+
+:root {
+  @media (min-width: 1152px) {
+    --sl-content-inline-start: 0rem !important;
+  }
 }
