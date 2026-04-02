@@ -70,4 +70,10 @@ export const examples = [
 sum((#(nabc,abc->n; X, theta)-y)^2)`,
     wrt: 'th0',
   },
+  {
+    title: 'Tensor regression (wheel network)',
+    value: `theta=#(ijk,zaix,xbjy,yckz->abc; C, th0, th1, th2) 
+sum((#(nabc,abc->n; X, theta)-y)^2)`,
+    wrt: 'th0',
+  },
 ] as { title: string; value: string; wrt: string }[];
