@@ -11,8 +11,8 @@ const topLevel = (pathname: string) => pathname.split('/')[1];
 const currentBase = topLevel(Astro.url.pathname);
 ---
 
-<div class="hidden lg:block mr-2">
-  <a href="/" class="brand-link -left-4 font-bold text-xl pt-1.5 mr-10">Extended Einsum</a>
+<div class="brand-wrapper hidden lg:flex">
+  <a href="/" class="brand-link font-bold text-xl">Extended Einsum</a>
 </div>
 {links.map(link => (
   <a href={link.href} class={`nav-link max-[800px]:hidden px-4 py-1.5 font-bold ${topLevel(link.href) === currentBase && 'active rounded-md'}`}>
@@ -23,7 +23,18 @@ const currentBase = topLevel(Astro.url.pathname);
 <Default {...Astro.props}><slot /></Default>
 
 <style>
-  .brand-link, .nav-link { color: var(--sl-color-text); text-decoration: none; }
+  .brand-wrapper {
+    align-items: center;
+    margin-inline-end: 2rem;
+  }
+  .brand-link, .nav-link {
+    align-items: center;
+    color: var(--sl-color-text);
+    display: inline-flex;
+    min-height: 2.5rem;
+    text-decoration: none;
+    white-space: nowrap;
+  }
   .active { color: white; background: #002f5d; }
   :global([data-theme='dark']) .active { color: black; background: #8fceee; }
 </style>
