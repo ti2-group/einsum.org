@@ -26,6 +26,8 @@ ol {
 
 :root,
 ::backdrop {
+  --ee-active-bg: #8fceee;
+  --ee-active-fg: #000;
   --sl-color-bg: #000;
   --sl-color-bg-nav: var(--sl-color-bg);
   --sl-color-bg-sidebar: var(--sl-color-bg);
@@ -43,14 +45,47 @@ header { border-bottom-width: 0 !important; }
 .sidebar button svg { width: 1.5em !important; height: 1.5em !important; }
 .sl-link-button { padding-top: 0.5rem; padding-bottom: 0.5rem; }
 .sl-link-button svg { width: 1rem; height: 1rem; }
-.button-group .sl-link-button { margin-bottom: 0; }
-.button-group { margin-bottom: 1rem; }
+.button-group .sl-link-button {
+  font-size: 1.05rem;
+  min-height: 3.25rem;
+  margin-bottom: 0;
+  padding: 0.75rem 1.75rem;
+}
+.button-group .sl-link-button.primary {
+  background: var(--ee-active-bg);
+  border-color: var(--ee-active-bg);
+  color: var(--ee-active-fg);
+}
+.button-group .sl-link-button.primary:hover,
+.button-group .sl-link-button.primary:focus {
+  color: var(--ee-active-fg);
+}
+.button-group .sl-link-button.secondary {
+  border-color: var(--ee-active-bg);
+  color: var(--ee-active-bg);
+}
+.button-group {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
 #starlight__sidebar { border-right-width: 0 !important; }
+#starlight__sidebar [aria-current='page'],
+#starlight__sidebar [aria-current='page']:hover,
+#starlight__sidebar [aria-current='page']:focus {
+  background-color: var(--ee-active-bg);
+  color: var(--ee-active-fg);
+}
 .right-sidebar { border-left-width: 0 !important; }
 #starlight__on-this-page--mobile { border-bottom-width: 0 !important; }
 
 :root[data-theme='light'],
 [data-theme='light'] ::backdrop {
+  --ee-active-bg: #002f5d;
+  --ee-active-fg: #fff;
   --sl-color-bg: #fff;
   --sl-color-bg-nav: var(--sl-color-bg);
 }
@@ -59,17 +94,26 @@ header { border-bottom-width: 0 !important; }
 
 .feature-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  grid-auto-rows: 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
   margin: 1.5rem 0;
 }
 
 .feature-card {
+  align-content: start;
   border: 1px solid var(--sl-color-gray-5);
   border-radius: 0.75rem;
-  padding: 1rem;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  margin: 0 !important;
+  padding: 1.25rem;
   background: color-mix(in srgb, var(--sl-color-bg) 94%, var(--sl-color-accent) 6%);
 }
 
 .feature-card strong { display: block; margin-bottom: 0.35rem; }
 .feature-card p { margin: 0; color: var(--sl-color-gray-2); }
+
+@media (max-width: 40rem) {
+  .feature-grid { grid-template-columns: 1fr; }
+}

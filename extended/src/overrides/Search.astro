@@ -35,6 +35,8 @@ const currentBase = topLevel(Astro.url.pathname);
     text-decoration: none;
     white-space: nowrap;
   }
-  .active { color: white; background: #002f5d; }
-  :global([data-theme='dark']) .active { color: black; background: #8fceee; }
+  .active {
+    background: var(--ee-active-bg);
+    color: var(--ee-active-fg);
+  }
 </style>
