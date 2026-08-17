@@ -1,0 +1,17 @@
+---
+import type { Props } from '@astrojs/starlight/props';
+import Default from '@astrojs/starlight/components/PageTitle.astro';
+
+const isHomepage = Astro.props.slug === '';
+---
+
+{
+  isHomepage ? (
+    <div class="text-center sl-markdown-content">
+      <h1 class="mt-8">Extended Einsum</h1>
+      <div class="text-lg pt-1">Compile expressive, optimized, numerically stable tensor programs</div>
+    </div>
+  ) : (
+    <Default {...Astro.props}><slot /></Default>
+  )
+}

@@ -1,6 +1,13 @@
 // Sample services data
 export const services = [
   {
+    id: 7,
+    title: 'Extended Einsum',
+    description: 'Compile expressive, optimized, numerically stable tensor programs',
+    imageUrl: '/Extended',
+    url: 'https://extended.einsum.org',
+  },
+  {
     id: 1,
     title: 'Einsum Benchmark',
     description: 'Enabling the Development of Next-Generation Tensor Execution Engines',

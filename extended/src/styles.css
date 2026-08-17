@@ -1,0 +1,72 @@
+@import 'tailwindcss';
+@import '@astrojs/starlight-tailwind';
+
+@theme {
+  --color-accent-100: #c5e8f6;
+  --color-accent-200: #8fceee;
+  --color-accent-300: #529dce;
+  --color-accent-400: #27699d;
+  --color-accent-500: #002f5d;
+  --color-accent-600: #00244f;
+  --color-accent-700: #001b42;
+  --color-accent-800: #001335;
+  --color-accent-900: #000d2c;
+}
+
+.content-panel + .content-panel {
+  border-top: none;
+  padding-top: 0;
+}
+
+.expressive-code,
+ul,
+ol {
+  text-align: left;
+}
+
+:root,
+::backdrop {
+  --sl-color-bg: #000;
+  --sl-color-bg-nav: var(--sl-color-bg);
+  --sl-color-bg-sidebar: var(--sl-color-bg);
+}
+
+#_top { margin-top: 0; }
+.header { grid-template-columns: 50px 1fr auto !important; }
+.header button[aria-label='Search'] { max-width: 140px; }
+header { border-bottom-width: 0 !important; }
+.content-panel:first-of-type { padding-top: 16px !important; }
+.sidebar button { box-shadow: none !important; --sl-menu-button-size: 2.5em !important; }
+.sidebar button svg { width: 1.5em !important; height: 1.5em !important; }
+.sl-link-button { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+.sl-link-button svg { width: 1rem; height: 1rem; }
+.button-group .sl-link-button { margin-bottom: 0; }
+.button-group { margin-bottom: 1rem; }
+#starlight__sidebar { border-right-width: 0 !important; }
+.right-sidebar { border-left-width: 0 !important; }
+#starlight__on-this-page--mobile { border-bottom-width: 0 !important; }
+
+:root[data-theme='light'],
+[data-theme='light'] ::backdrop {
+  --sl-color-bg: #fff;
+  --sl-color-bg-nav: var(--sl-color-bg);
+}
+
+.MathJax svg { display: inline !important; }
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.feature-card {
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  background: color-mix(in srgb, var(--sl-color-bg) 94%, var(--sl-color-accent) 6%);
+}
+
+.feature-card strong { display: block; margin-bottom: 0.35rem; }
+.feature-card p { margin: 0; color: var(--sl-color-gray-2); }

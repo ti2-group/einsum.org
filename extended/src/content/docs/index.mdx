@@ -1,0 +1,103 @@
+---
+title: "Extended Einsum"
+description: "Compile expressive, optimized, numerically stable tensor programs"
+tableOfContents: false
+hideSidebar: true
+editUrl: false
+next: false
+prev: false
+---
+
+import { Tabs, TabItem, LinkButton } from '@astrojs/starlight/components';
+
+<div class="text-center">
+  <div class="mt-0 button-group">
+    <LinkButton href="/getting-started/installation">Get started</LinkButton>
+    <LinkButton icon="external" href="https://github.com/ti2-group/extended_einsum" variant="secondary">View on GitHub</LinkButton>
+  </div>
+</div>
+
+Extended Einsum is a small tensor language and compiler IR. It keeps contractions, intermediate results, layout operations, and nonlinearities visible long enough to optimize the whole program—then lowers it to PyTorch, JAX, or NumPy.
+
+<div class="feature-grid">
+  <div class="feature-card"><strong>Beyond one einsum</strong><p>Compose contractions with softmax, exponentials, arithmetic, stacking, slicing, selection, and routing.</p></div>
+  <div class="feature-card"><strong>Whole-program optimization</strong><p>Replan contraction paths, fold matching operations, and arrange folded values for their consumers.</p></div>
+  <div class="feature-card"><strong>Automatic stability</strong><p>Choose log-space or scaled evaluation without rewriting the expression that defines your model.</p></div>
+  <div class="feature-card"><strong>Backend independent</strong><p>Use the included PyTorch, JAX, and NumPy backends or implement the compact backend protocol.</p></div>
+</div>
+
+## Quick start
+
+<Tabs>
+<TabItem label="PyTorch">
+
+```python
+import torch
+import extended_einsum.interface as xe
+
+x = xe.array(torch.rand(32, 16) + 0.1)
+w = xe.array(torch.rand(16, 8) + 0.1)
+
+hidden = xe.softmax(x, axis=1)
+result = xe.einsum("bi,io->bo", hidden, w)
+output = result.materialize(stability_mode="scaled_sum")
+
+print(output.backend_array.shape)  # torch.Size([32, 8])
+```
+
+</TabItem>
+<TabItem label="NumPy">
+
+```python
+import numpy as np
+import extended_einsum.interface as xe
+
+x = xe.array(np.random.rand(32, 16) + 0.1)
+w = xe.array(np.random.rand(16, 8) + 0.1)
+result = xe.einsum("bi,io->bo", xe.softmax(x, axis=1), w)
+
+output = result.materialize(stability_mode="unstable")
+print(output.backend_array.shape)  # (32, 8)
+```
+
+</TabItem>
+<TabItem label="JAX">
+
+```python
+import jax.numpy as jnp
+import extended_einsum.interface as xe
+
+x = xe.array(jnp.ones((32, 16)))
+w = xe.array(jnp.ones((16, 8)))
+result = xe.einsum("bi,io->bo", xe.softmax(x, axis=1), w)
+
+output = result.materialize(stability_mode="scaled_sum")
+print(output.backend_array.shape)  # (32, 8)
+```
+
+</TabItem>
+</Tabs>
+
+## Choose a path
+
+- New to the package? Start with [installation](/getting-started/installation) and [your first expression](/getting-started/first-expression).
+- Training a model? Use the [minimal PyTorch training setup](/guides/torch-training).
+- Working with deep products of positive values? Read [automatic numerical stability](/guides/numerical-stability).
+- Integrating another array framework? Follow [write a backend](/guides/custom-backend).
+- Looking up a signature? Go directly to the [interface reference](/reference/interface).
+
+## The compilation pipeline
+
+```text
+TensorExpression
+    ↓ extract_program
+Extended Einsum SSA program
+    ↓ folding and contraction-path passes
+Optimized program
+    ↓ stability-aware translation
+BackendProgram
+    ↓ PyTorch / JAX / NumPy compiler
+Native backend result
+```
+
+The frontend records *what* the tensor program computes. Optimization decides *how* to structure it. Stability translation chooses *how* positive values are represented. The backend finally supplies array primitives and optional compilation.

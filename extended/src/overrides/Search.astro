@@ -1,0 +1,29 @@
+---
+import type { Props } from '@astrojs/starlight/props';
+import Default from '@astrojs/starlight/components/Search.astro';
+
+const links = [
+  { href: '/getting-started/installation', text: 'Get started' },
+  { href: '/guides/torch-training', text: 'Guides' },
+  { href: '/reference/interface', text: 'Reference' },
+];
+const topLevel = (pathname: string) => pathname.split('/')[1];
+const currentBase = topLevel(Astro.url.pathname);
+---
+
+<div class="hidden lg:block mr-2">
+  <a href="/" class="brand-link -left-4 font-bold text-xl pt-1.5 mr-10">Extended Einsum</a>
+</div>
+{links.map(link => (
+  <a href={link.href} class={`nav-link max-[800px]:hidden px-4 py-1.5 font-bold ${topLevel(link.href) === currentBase && 'active rounded-md'}`}>
+    {link.text}
+  </a>
+))}
+<div style="flex-grow: 1;"></div>
+<Default {...Astro.props}><slot /></Default>
+
+<style>
+  .brand-link, .nav-link { color: var(--sl-color-text); text-decoration: none; }
+  .active { color: white; background: #002f5d; }
+  :global([data-theme='dark']) .active { color: black; background: #8fceee; }
+</style>
