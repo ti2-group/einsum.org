@@ -12,8 +12,10 @@ export default defineConfig({
     starlight({
       title: 'Tenvexity',
       logo: {
-        src: './public/favicon.svg',
+        light: './public/Tenvexity_light.svg',
+        dark: './public/Tenvexity_dark.svg',
         alt: 'Tenvexity',
+        replacesTitle: true,
       },
       social: {
         github: 'https://github.com/ti2-group/einsum.org',

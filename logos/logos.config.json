@@ -1,0 +1,109 @@
+{
+  "$schema": "./logos.schema.json",
+  "defaults": {
+    "canvas": { "width": 200, "height": 64 },
+    "outputDirectory": ".",
+    "fonts": {
+      "initial": "./Inter/static/Inter_28pt-SemiBold.ttf",
+      "text": "./Inter/static/Inter_24pt-Medium.ttf"
+    },
+    "typography": {
+      "initialSize": 70,
+      "textSize": 31,
+      "baseline": 57,
+      "gap": 1
+    },
+    "initial": { "strokeWidth": 4 },
+    "dots": { "radius": 8, "strokeWidth": 0, "fill": "stroke", "stroke": "stroke" },
+    "modes": {
+      "light": { "text": "#000000" },
+      "dark": { "text": "#ffffff" }
+    }
+  },
+  "logos": [
+    {
+      "id": "benchmark",
+      "text": "Benchmark",
+      "colors": { "fill": "#ffd500", "stroke": "#f2b200" },
+      "dots": [
+        { "relativeTo": "initial", "x": 0.1, "y": 0.08 },
+        { "relativeTo": "initial", "x": 0.1, "y": 0.5 },
+        { "relativeTo": "initial", "x": 0.1, "y": 0.92 }
+      ]
+    },
+    {
+      "id": "sql",
+      "output": "SQL",
+      "text": "SQL",
+      "colors": { "fill": "#fd8d3c", "stroke": "#e6550d" },
+      "dots": [
+        { "relativeTo": "initial-px", "x": 35, "y": 15 },
+        { "relativeTo": "initial-px", "x": 4, "y": 40 }
+      ]
+    },
+    {
+      "id": "diff",
+      "text": "Derivative",
+      "colors": { "fill": "#9ecae1", "stroke": "#3182bd" },
+      "dots": [
+        { "relativeTo": "initial", "x": 0.11, "y": 0.08 },
+        { "relativeTo": "initial", "x": 0.11, "y": 0.92 },
+        { "relativeTo": "initial", "x": 0.9, "y": 0.5 }
+      ]
+    },
+    {
+      "id": "tenvexity",
+      "text": "Tenvexity",
+      "colors": { "fill": "#a1d99b", "stroke": "#31a354" },
+      "dots": [
+        { "relativeTo": "initial", "x": 0.02, "y": 0.08 },
+        { "relativeTo": "initial", "x": 0.98, "y": 0.08 },
+        { "relativeTo": "initial", "x": 0.5, "y": 0.92 }
+      ]
+    },
+    {
+      "id": "opt",
+      "text": "Optimize",
+      "colors": { "fill": "#ce6dbd", "stroke": "#7b4173" },
+      "dots": [
+        { "relativeTo": "initial-px", "x": 40, "y": 15 },
+        { "relativeTo": "initial-px", "x": 7, "y": 39 }
+      ]
+    },
+    {
+      "id": "path",
+      "text": "Path",
+      "colors": { "fill": "#bdbdbd", "stroke": "#636363" },
+      "dots": [
+        { "relativeTo": "initial", "x": 0.11, "y": 0.08 },
+        { "relativeTo": "initial", "x": 0.11, "y": 0.92 },
+        { "relativeTo": "initial", "x": 0.85, "y": 0.3 }
+      ]
+    },  
+    {
+      "id": "extended",
+      "text": "Extended",
+      "colors": { "fill": "#9ecae1", "stroke": "#002f5d" },
+      "modes": {
+        "dark": { "stroke": "#9ecae1" }
+      },
+      "initial": {
+        "customPath": {
+          "d": "M29 0H0L15 20 0 40H29",
+          "viewBox": [0, 0, 29, 40],
+          "height": 40,
+          "top": 12
+        },
+        "fill": "none",
+        "stroke": "stroke",
+        "strokeWidth": 8,
+        "lineJoin": "round"
+      },
+      "typography": { "textSize": 31, "gap": 7 },
+      "dots": [
+        { "relativeTo": "initial", "x": 1, "y": 0, "radius": 6, "strokeWidth": 0 },
+        { "relativeTo": "initial", "x": 1, "y": 1, "radius": 6, "strokeWidth": 0 }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "einsum.org logo configuration",
+  "type": "object",
+  "required": ["defaults", "logos"],
+  "properties": {
+    "defaults": { "$ref": "#/$defs/defaults" },
+    "logos": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/logo" }
+    }
+  },
+  "$defs": {
+    "paint": {
+      "type": "string",
+      "description": "A fill/stroke/text/none token or a literal CSS color"
+    },
+    "dot": {
+      "type": "object",
+      "required": ["x", "y"],
+      "properties": {
+        "relativeTo": { "enum": ["initial", "initial-px", "canvas"], "default": "initial" },
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "dx": { "type": "number" },
+        "dy": { "type": "number" },
+        "radius": { "type": "number", "exclusiveMinimum": 0 },
+        "strokeWidth": { "type": "number", "minimum": 0 },
+        "fill": { "$ref": "#/$defs/paint" },
+        "stroke": { "$ref": "#/$defs/paint" }
+      },
+      "additionalProperties": false
+    },
+    "customPath": {
+      "type": "object",
+      "required": ["d", "viewBox"],
+      "properties": {
+        "d": { "type": "string", "minLength": 1 },
+        "viewBox": {
+          "type": "array",
+          "items": { "type": "number" },
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "height": { "type": "number", "exclusiveMinimum": 0 },
+        "top": {
+          "type": "number",
+          "description": "Optional absolute y coordinate for the scaled path bounds"
+        }
+      },
+      "additionalProperties": false
+    },
+    "initial": {
+      "type": "object",
+      "properties": {
+        "font": { "type": "string" },
+        "customPath": { "$ref": "#/$defs/customPath" },
+        "fill": { "$ref": "#/$defs/paint" },
+        "stroke": { "$ref": "#/$defs/paint" },
+        "strokeWidth": { "type": "number", "minimum": 0 },
+        "lineJoin": { "enum": ["arcs", "bevel", "miter", "miter-clip", "round"] }
+      },
+      "additionalProperties": false
+    },
+    "typography": {
+      "type": "object",
+      "properties": {
+        "initialSize": { "type": "number", "exclusiveMinimum": 0 },
+        "textSize": { "type": "number", "exclusiveMinimum": 0 },
+        "baseline": { "type": "number" },
+        "gap": { "type": "number" }
+      },
+      "additionalProperties": false
+    },
+    "logo": {
+      "type": "object",
+      "required": ["id", "text", "colors", "dots"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9_-]*$" },
+        "output": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$" },
+        "text": { "type": "string", "minLength": 1 },
+        "colors": {
+          "type": "object",
+          "required": ["fill", "stroke"],
+          "properties": {
+            "fill": { "type": "string" },
+            "stroke": { "type": "string" }
+          },
+          "additionalProperties": false
+        },
+        "initial": { "$ref": "#/$defs/initial" },
+        "typography": { "$ref": "#/$defs/typography" },
+        "dots": { "type": "array", "items": { "$ref": "#/$defs/dot" } },
+        "modes": { "$ref": "#/$defs/modes" }
+      },
+      "additionalProperties": false
+    },
+    "defaults": {
+      "type": "object",
+      "required": ["canvas", "fonts", "typography", "modes"],
+      "properties": {
+        "canvas": { "type": "object" },
+        "outputDirectory": { "type": "string" },
+        "fonts": { "type": "object" },
+        "typography": { "$ref": "#/$defs/typography" },
+        "initial": { "$ref": "#/$defs/initial" },
+        "dots": { "type": "object" },
+        "modes": { "$ref": "#/$defs/modes" }
+      },
+      "additionalProperties": false
+    },
+    "modes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "text": { "type": "string" },
+          "fill": { "type": "string" },
+          "stroke": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

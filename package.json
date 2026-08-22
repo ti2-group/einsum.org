@@ -3,6 +3,9 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
+    "logos:generate": "node ./logos/generate.mjs",
+    "logos:check": "node ./logos/generate.mjs --check",
+    "logos:guides": "node ./logos/generate.mjs --guides",
     "tenvexity:dev": "astro --root ./tenvexity dev",
     "tenvexity:build": "astro --root ./tenvexity build",
     "tenvexity:preview": "astro --root ./tenvexity preview",
@@ -59,6 +62,7 @@
     "eslint": "^9.9.1",
     "eslint-plugin-astro": "^1.2.3",
     "eslint-plugin-jsx-a11y": "^6.10.0",
+    "fontkit": "^2.0.4",
     "prettier": "^3.3.3",
     "prettier-plugin-astro": "^0.14.1"
   },

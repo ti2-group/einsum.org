@@ -12,9 +12,9 @@ export default defineConfig({
     starlight({
       title: 'Einsum Benchmark',
       logo: {
-        light: './public/favicon.svg',
-        alt: 'Sigma',
-        dark: './public/favicon-dark.svg',
+        light: './public/Benchmark_light.svg',
+        alt: 'Einsum Benchmark',
+        dark: './public/Benchmark_dark.svg',
         replacesTitle: true,
       },
       // Set main and additional favicons

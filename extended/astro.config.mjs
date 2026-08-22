@@ -10,9 +10,9 @@ export default defineConfig({
     starlight({
       title: 'Extended Einsum',
       logo: {
-        light: './public/favicon.svg',
+        light: './public/Extended_light.svg',
         alt: 'Extended Einsum',
-        dark: './public/favicon-dark.svg',
+        dark: './public/Extended_dark.svg',
         replacesTitle: true,
       },
       favicon: 'favicon.svg',
