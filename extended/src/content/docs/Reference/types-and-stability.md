@@ -10,10 +10,11 @@ Core aliases live in `extended_einsum.language.types`.
 ```python
 Shape = tuple[int, ...]
 TensorFormat = Literal["dense", "sparse"]
-Backend = Literal["torch", "numpy", "jax"]
+Backend = str  # a registered backend name, e.g. "torch", "numpy", "jax"
 StabilityMode = Literal[
     "unstable",
     "scaled_min",
+    "scaled_max",
     "scaled_sum",
     "logspace_min",
     "logspace_max",
@@ -39,7 +40,7 @@ The frontend records `"dense"` or `"sparse"` on every SSA value. Unary operators
 
 One direct backend call per IR instruction. This is the only mode intended for unrestricted signed intermediates.
 
-### `scaled_sum` / `scaled_min`
+### `scaled_sum` / `scaled_min` / `scaled_max`
 
 Represent positive values as normalized tensors plus broadcastable log scales. The suffix chooses the last-axis fiber normalizer. Normalizers and common scales are passed through `stop_gradient` because their represented-value derivative cancels.
 

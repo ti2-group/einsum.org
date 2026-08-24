@@ -23,7 +23,7 @@ Extended Einsum is a small tensor language and compiler IR. It keeps contraction
   <div class="feature-card"><strong>Beyond one einsum</strong><p>Compose contractions with softmax, exponentials, arithmetic, stacking, slicing, selection, and routing.</p></div>
   <div class="feature-card"><strong>Whole-program optimization</strong><p>Replan contraction paths, fold matching operations, and arrange folded values for their consumers.</p></div>
   <div class="feature-card"><strong>Automatic stability</strong><p>Choose log-space or scaled evaluation without rewriting the expression that defines your model.</p></div>
-  <div class="feature-card"><strong>Backend independent</strong><p>Use the included PyTorch, JAX, and NumPy backends or implement the compact backend protocol.</p></div>
+  <div class="feature-card"><strong>Backend independent</strong><p>Use the included PyTorch, JAX, and NumPy backends or register your own with `register_backend`.</p></div>
 </div>
 
 ## Quick start

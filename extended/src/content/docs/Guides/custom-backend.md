@@ -1,87 +1,103 @@
 ---
 title: "Write a custom backend"
-description: "Implement and register an array backend based on the PyTorch backend"
+description: "Implement, register, and validate an array backend with register_backend"
 sidebar:
   order: 5
 ---
 
-A backend has three pieces:
+A backend plugs in through `extended_einsum.register_backend` and consists of:
 
 1. an array type that exposes `shape`;
-2. a `BackendFunctions` implementation for primitive tensor operations;
-3. a `BackendCompiler` that turns a `BackendProgram` into a callable.
+2. a `BackendFunctions` subclass providing the primitive tensor operations;
+3. optionally a `BackendCompiler` and an `is_array` detection predicate.
 
-Use `extended_einsum/backends/torch.py` as the complete reference implementation.
+Custom backends register at runtime under any name — no changes to the package are needed. Use `extended_einsum/backends/numpy.py` as the minimal reference (primitives only) and `extended_einsum/backends/torch.py` as the full one (overridden defaults and a JIT compiler).
 
-## 1. Implement the primitive operations
+## 1. Subclass `BackendFunctions`
+
+`BackendFunctions` is an abstract base class, generic over the array type. Only twelve primitives are abstract:
+
+`exp`, `log`, `sum`, `max`, `min`, `maximum`, `reshape`, `broadcast_to`, `stack`, `concat`, `take`, and `einsum`.
 
 ```python
-from collections.abc import Sequence
+import extended_einsum as xe
 
-class MyBackendFunctions:
-    @staticmethod
-    def stop_gradient(array):
-        return mylib.stop_gradient(array)
+class MyBackendFunctions(xe.BackendFunctions[MyArray]):
+    def exp(self, array): return mylib.exp(array)
 
-    @staticmethod
-    def exp(array): return mylib.exp(array)
+    def log(self, array): return mylib.log(array)
 
-    @staticmethod
-    def log(array): return mylib.log(array)
-
-    @staticmethod
-    def sum(array, axis=None, keepdims=False):
+    def sum(self, array, axis=None, keepdims=False):
         return mylib.sum(array, axis=axis, keepdims=keepdims)
 
-    # Also implement max, min, maximum, reshape, broadcast_to,
-    # stack, concat, take, select, slice, softmax, einsum,
-    # add, subtract, multiply, and divide.
+    # ... max, min, maximum, reshape, broadcast_to,
+    #     stack, concat, take, einsum
 ```
 
-Match the protocol signatures exactly. Pay particular attention to:
+The remaining operations have default implementations composed from the primitives or from the array type's standard Python protocols:
+
+- `add`, `subtract`, `multiply`, `divide` use the `+`, `-`, `*`, `/` operators;
+- `select` and `slice` use `__getitem__` indexing;
+- `softmax` is composed from `max`, `exp`, `sum`, `subtract`, and `divide`;
+- `stop_gradient` is the identity.
+
+Override a default when the backend offers a faster or more precise native version (e.g. a fused softmax), or when its arrays do not support the standard operators. **Backends with automatic differentiation must override `stop_gradient`** (`array.detach()` in PyTorch, `jax.lax.stop_gradient` in JAX) — the identity default silently breaks gradients of stable lowerings.
+
+Match the signatures exactly. In particular:
 
 - `axis` may be an integer, a tuple, or `None` for reductions;
 - `keepdims` must preserve broadcastable scale shapes;
-- `softmax` must support one axis or a tuple of axes;
-- `take`, `select`, and `slice` have distinct shape semantics;
-- `stop_gradient` is required for correct and efficient stable lowering.
+- `softmax` must support one axis or a tuple of axes.
 
-## 2. Implement a compiler
+Because the primitives are abstract, an incomplete subclass fails at instantiation time. Registration also accepts duck-typed objects, but then missing methods are only caught by the registration check.
 
-The simplest compiler uses the included interpreter:
+## 2. Register it
+
+```python
+xe.register_backend(
+    "mybackend",
+    MyBackendFunctions(),
+    is_array=lambda array: isinstance(array, MyArray),
+)
+```
+
+- **Name**: any non-empty string; registering an existing name replaces that backend.
+- **Compiler**: omitted here, so programs are interpreted call by call by the built-in `DefaultCompiler`.
+- **`is_array`**: lets `xe.array(native_array)` detect the backend automatically. Later-registered predicates take precedence, so a custom backend whose arrays subclass a built-in array type still detects correctly. Without a predicate, wrap arrays explicitly: `xe.array(data, backend="mybackend")`.
+
+## 3. Optionally add a compiler
+
+A compiler turns a `BackendProgram` into a callable, typically by wrapping the included interpreter with the backend's JIT:
 
 ```python
 from functools import partial
-from extended_einsum.backend_translation.runtime import run_program
+from extended_einsum.backend_translation import run_program
 
 class MyCompiler:
-    @staticmethod
-    def compile(program, inputs):
+    def compile(self, program, inputs):
         if len(inputs) != program.n_inputs:
             raise ValueError("wrong number of inputs")
-        return partial(run_program, program)
+        return my_jit(partial(run_program, program))
+
+xe.register_backend("mybackend", MyBackendFunctions(), MyCompiler(), is_array=...)
 ```
 
-An optimizing backend can wrap this callable with its JIT. PyTorch uses `torch.compile(partial(run_program, program))`; JAX uses its own compilation strategy.
+PyTorch uses `torch.compile(partial(run_program, program))`; JAX traces, lowers, and compiles with `jax.jit`.
 
-## 3. Teach array detection about the backend
+## 4. Validate with the conformance checker
 
-`xe.array(native_array)` calls `get_backend_of_array`, whose return type is currently the closed literal `"torch" | "numpy" | "jax"`. A new first-class backend therefore needs a new literal in `language/types.py` and a matching type check in `backend_translation/backend.py`.
-
-## 4. Register it
+`extended_einsum.testing.check_backend` runs every supported operator through every stability mode using the backend as registered (including its compiler) and compares the results against the NumPy reference backend:
 
 ```python
-from extended_einsum.backends.registry import (
-    BACKEND_TO_COMPILER,
-    BACKEND_TO_FUNCTIONS,
-)
+from extended_einsum.testing import check_backend
 
-BACKEND_TO_FUNCTIONS["mybackend"] = MyBackendFunctions()
-BACKEND_TO_COMPILER["mybackend"] = MyCompiler()
+check_backend(
+    "mybackend",
+    from_numpy=to_my_array,      # np.ndarray -> MyArray
+    to_numpy=from_my_array,      # MyArray -> np.ndarray
+)
 ```
 
-For an out-of-tree experiment you can patch the registries at startup, but a full integration should extend the `Backend` type and array detection in the package itself.
+Operator/mode combinations raising `NotImplementedError` are skipped, matching the library's contract for unsupported combinations; everything else must match the reference, and the raised `AssertionError` lists every failing combination. Loosen `rtol`/`atol` for single-precision backends.
 
-## 5. Test every stability mode
-
-Compare the backend against NumPy on small positive inputs for `unstable`, `scaled_sum`, `scaled_min`, `logspace_max`, and `logspace_min`. Also verify gradients for `stop_gradient`, reductions, stable contractions, and routing operations. Tuple-axis softmax and reduction `keepdims=True` are common integration pitfalls.
+Beyond conformance, also verify gradients (if applicable) for `stop_gradient`, reductions, stable contractions, and routing operations. Tuple-axis softmax and reduction `keepdims=True` are common integration pitfalls.

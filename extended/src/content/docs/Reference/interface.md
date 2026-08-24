@@ -13,12 +13,13 @@ import extended_einsum.interface as xe
 
 ## Arrays and expressions
 
-### `array(backend_array, format="dense")`
+### `array(backend_array, format="dense", *, backend=None)`
 
-Wraps a native `torch.Tensor`, `numpy.ndarray`, or `jax.Array` in a `BackendArrayWrapper`.
+Wraps a native array (e.g. `torch.Tensor`, `numpy.ndarray`, `jax.Array`, or a custom backend's array type) in a `BackendArrayWrapper`.
 
 - `backend_array`: native array, retained without copying.
 - `format`: `"dense"` or `"sparse"` metadata.
+- `backend`: backend name; detected from the array type via the registered `is_array` predicates when omitted. Required for backends registered without a predicate.
 - returns: wrapper with `.backend_array`, `.shape`, `.backend`, and `.format`.
 
 ### `TensorExpression`
@@ -26,7 +27,7 @@ Wraps a native `torch.Tensor`, `numpy.ndarray`, or `jax.Array` in a `BackendArra
 A lazy operation node. Read-only public properties:
 
 - `shape: tuple[int, ...]`
-- `backend: "torch" | "numpy" | "jax"`
+- `backend: str` (a registered backend name, e.g. `"torch"`, `"numpy"`, `"jax"`)
 - `format: "dense" | "sparse"`
 - `operator`
 - `arguments`

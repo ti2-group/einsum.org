@@ -57,11 +57,11 @@ from extended_einsum.backend_translation import (
     run_program,
     translate_to_backend_program,
 )
-from extended_einsum.backends.registry import BACKEND_TO_FUNCTIONS
+from extended_einsum.backends.registry import get_backend_functions
 
 backend_program = translate_to_backend_program(
     optimized,
-    BACKEND_TO_FUNCTIONS[expression.backend],
+    get_backend_functions(expression.backend),
 )
 native_inputs = [item.backend_array for item in inputs]
 result = run_program(backend_program, native_inputs)
